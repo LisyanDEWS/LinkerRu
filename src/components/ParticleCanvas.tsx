@@ -43,7 +43,7 @@ export default function ParticleCanvas({
     resize();
     window.addEventListener('resize', resize);
 
-    // Initialise particles
+    // Initialize particles
     particlesRef.current = Array.from({ length: count }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
