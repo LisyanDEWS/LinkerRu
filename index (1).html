@@ -1,0 +1,2183 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+    <title>LinkerRu XII</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght=300..700&family=Bungee&family=DotGothic16&family=Space+Mono:ital,wght=0,400;0,700;1,400&family=Audiowide&family=Comfortaa:wght=300..700&family=Courier+Prime:wght=400;700&family=Fira+Code:wght=300..700&family=Inter:wght=100..900&family=Lato:wght=100..900&family=Lora:ital,wght=0,400..700;1,400..700&family=Merriweather:ital,wght=0,300..900;1,300..900&family=Montserrat:ital,wght=0,100..900;1,100..900&family=Open+Sans:ital,wght=0,300..800;1,300..800&family=Orbitron:wght=400..900&family=Oswald:wght=200..700&family=Pacifico&family=Playfair+Display:ital,wght=0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght=0,200..800;1,200..800&family=Poppins:ital,wght=0,100..900;1,100..900&family=Press+Start+2P&family=Raleway:ital,wght=0,100..900;1,100..900&family=Righteous&family=Roboto:ital,wght=0,100..900;1,100..900&family=Special+Elite&family=VT323&display=swap" rel="stylesheet" />
+    
+    <style>
+      html, body {
+        height: 100%; width: 100%; overflow: hidden; margin: 0; padding: 0;
+        font-size: clamp(14px, 0.6vw + 0.6rem, 24px);
+      }
+      
+      :root {
+        --primary: #fff;
+        --glass-bg: rgba(0, 0, 0, 0.6);
+        --glass-border: rgba(255, 255, 255, 0.15);
+        --text-main: #fff;
+        --text-muted: rgba(255, 255, 255, 0.75);
+        
+        --bg-gradient: linear-gradient(180deg, #000 0%, #050505 100%);
+        --btn-bg: #fff;
+        --btn-text: #000;
+
+        --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+        --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+        --ease-wobble: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        --capsule-bg: rgba(20, 20, 20, 0.8);
+        --capsule-border: rgba(255, 255, 255, 0.15);
+        --event-color: rgba(255, 255, 255, 0.9);
+        
+        --font-heading: 'Plus Jakarta Sans', sans-serif;
+        --font-body: 'Plus Jakarta Sans', sans-serif;
+        
+        --m3-easing: cubic-bezier(0.2, 0, 0, 1);
+        --m3-duration: 400ms;
+        --track-off: rgba(255, 255, 255, 0.2);
+        --track-on: var(--btn-bg);
+        --thumb-off: #fff;
+        --thumb-on: var(--btn-text);
+        
+        --sq-btn-bg: var(--btn-bg);
+        --sq-btn-text: var(--btn-text);
+
+        --ctx-bg: rgba(20, 20, 20, 0.95);
+        --ctx-border: rgba(255, 255, 255, 0.15);
+        --ctx-hover: rgba(255, 255, 255, 0.1);
+        --ctx-text: #fff;
+
+        --setting-btn-bg: rgba(255, 255, 255, 0.05);
+        --setting-btn-hover: rgba(255, 255, 255, 0.1);
+      }
+
+      body.light-mode {
+        --primary: #000;
+        --glass-bg: #ffffff;
+        --glass-border: rgba(0, 0, 0, 0.15);
+        --text-main: #000000;
+        --text-muted: rgba(0, 0, 0, 0.7);
+        
+        --capsule-bg: #ffffff;
+        --capsule-border: rgba(0, 0, 0, 0.15);
+        
+        --track-off: rgba(0, 0, 0, 0.25); 
+        --thumb-off: #fff;                
+        
+        --ctx-bg: #ffffff;
+        --ctx-border: rgba(0, 0, 0, 0.15);
+        --ctx-hover: rgba(0, 0, 0, 0.08);
+        --ctx-text: #000;
+
+        --setting-btn-bg: rgba(0, 0, 0, 0.04);
+        --setting-btn-hover: rgba(0, 0, 0, 0.08);
+      }
+
+      body.cyclamen-mode {
+        --bg-gradient: #000000;
+        --glass-bg: #000000;
+        --glass-border: rgba(255, 255, 255, 0.03);
+        --capsule-bg: #000000;
+        --capsule-border: rgba(255, 255, 255, 0.05);
+        --text-main: #FFFFFF;
+        --text-muted: #A1A1AA;
+        --btn-bg: #FFFFFF;
+        --btn-text: #000000;
+        --ctx-bg: #000000;
+        --ctx-border: rgba(255, 255, 255, 0.05);
+        --track-on: #FFFFFF;
+        --thumb-on: #000000;
+      }
+      
+      body.cyclamen-mode .glass-panel,
+      body.cyclamen-mode .m3-card,
+      body.cyclamen-mode .auth-frame,
+      body.cyclamen-mode .modal-inner {
+        border-radius: 32px !important;
+        border: 1px solid rgba(255, 255, 255, 0.03) !important;
+        box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.1) !important;
+        background: #000000 !important;
+      }
+      body.cyclamen-mode .btn3d {
+        border-radius: 999px !important;
+        background: #000000 !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12) !important;
+        color: #FFFFFF !important;
+      }
+      body.cyclamen-mode .btn3d.btn-white {
+        background: #0a0a0a !important;
+        color: #FFFFFF !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5) !important;
+        border: 1px solid rgba(255, 255, 255, 0.4) !important;
+      }
+
+      body.expressive-mode .glass-panel,
+      body.expressive-mode .modal-inner,
+      body.expressive-mode .auth-frame {
+        border-radius: 28px !important;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.08) !important;
+        border: 1px solid var(--md-outline-variant) !important;
+        background: var(--md-surface-container) !important;
+      }
+      
+      body.expressive-mode .m3-card {
+        border-radius: 24px !important;
+        border: 1px solid var(--md-outline-variant) !important;
+        background: var(--md-surface-container-high) !important;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.05) !important;
+      }
+
+      body.expressive-mode .btn3d {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+        border: 1px solid var(--md-outline-variant) !important;
+      }
+
+      body.expressive-mode .dock-capsule {
+        border-radius: 99px !important;
+        background: var(--md-surface-container-high) !important;
+        border: 1px solid var(--md-outline-variant) !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+      }
+
+      body.expressive-mode .card-icon-box {
+        background: var(--md-primary-container) !important;
+        color: var(--md-on-primary-container) !important;
+        border: 1px solid var(--md-outline-variant) !important;
+        border-radius: 16px !important;
+      }
+
+      body.expressive-mode .m3-soft-button {
+        background: var(--md-primary-container) !important;
+        color: var(--md-on-primary-container) !important;
+        box-shadow: none !important;
+        border: none !important;
+      }
+      
+      body.expressive-mode .btn3d.btn-glass {
+        background: var(--md-surface-container-highest) !important;
+        color: var(--md-on-surface) !important;
+      }
+
+      body { background: var(--bg-gradient); background-attachment: fixed; color: var(--text-main); font-family: var(--font-body); transition: background 0.5s ease, color 0.5s ease; font-weight: 700; }
+      h1, h2, h3, .txt-title, #page-title { font-family: var(--font-heading); font-weight: 800; }
+      .txt-desc { font-size: 0.85rem; opacity: 0.8; font-weight: 600; }
+      
+      .theme-toggle { position: relative; width: 60px; height: 32px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+      .tt-input { opacity: 0; width: 0; height: 0; position: absolute; }
+      .tt-track { position: absolute; inset: 0; background-color: var(--track-off); border-radius: 100px; transition: background-color 500ms var(--m3-easing); }
+      .tt-thumb { position: absolute; top: 4px; left: 4px; width: 24px; height: 24px; background-color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: transform 500ms var(--m3-easing), background-color 500ms var(--m3-easing), width 500ms var(--m3-easing); z-index: 2; overflow: hidden; }
+      .tt-input:checked + .tt-track .tt-thumb { transform: translateX(28px); }
+      .theme-toggle:active .tt-thumb { width: 32px; transform: scaleY(0.8); }
+      .tt-input:checked + .tt-track .theme-toggle:active .tt-thumb { transform: translateX(20px) scaleY(0.8); }
+      .tt-icon { position: absolute; width: 14px; height: 14px; color: #1a1a1a; transition: 0.5s; }
+      .icon-sun { opacity: 0; transform: rotate(-90deg) scale(0); }
+      .icon-moon { opacity: 1; transform: rotate(0deg) scale(1); }
+      .tt-input:checked + .tt-track .icon-sun { opacity: 1; transform: rotate(0deg) scale(1); }
+      .tt-input:checked + .tt-track .icon-moon { opacity: 0; transform: rotate(90deg) scale(0); }
+
+      @keyframes fadeInUp { from { opacity: 0; transform: translateY(2.5rem) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+      .animate-enter { opacity: 0; animation: fadeInUp 0.8s var(--ease-smooth) forwards; }
+      .auth-wait { opacity: 0; pointer-events: none; }
+      
+      .dashboard-grid > .glass-panel { transition: all 0.4s var(--ease-wobble); will-change: transform, box-shadow; }
+      .dashboard-grid > .glass-panel:hover { transform: translateY(-5px) scale(1.02) rotate(1deg); box-shadow: 0 15px 30px rgba(0,0,0,0.3); z-index: 10; }
+      .dashboard-grid > .glass-panel:active { transform: scale(0.96) rotate(0deg); }
+      
+      #mainContent { height: 100%; width: 100%; display: flex; flex-direction: column; justify-content: flex-start; padding: 5rem 1.5rem 2rem 1.5rem; box-sizing: border-box; max-width: 90rem; margin: 0 auto; position: relative; z-index: 10; overflow-y: auto; -webkit-overflow-scrolling: touch; gap: 2rem; }
+      .dashboard-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; width: 100%; position: relative; contain: layout style; }
+      @media (min-width: 640px) { .dashboard-grid { grid-template-columns: repeat(2, 1fr); } }
+      @media (min-width: 1024px) { .dashboard-grid { grid-template-columns: repeat(4, 1fr); } }
+      .contents-display { display: contents; }
+      .widget-support { grid-column: span 1; }
+      @media (min-width: 1024px) { .widget-support { grid-column: span 2; } }
+
+      .glass-panel { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 1.5rem; position: relative; overflow: hidden; display: flex; flex-direction: column; padding: 1.5rem; min-height: 14rem; }
+      .card-icon-box { width: 3.5rem; height: 3.5rem; border-radius: 1rem; background: rgba(128, 128, 128, 0.1); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; margin-bottom: 0.75rem; flex-shrink: 0; }
+      .card-icon-box svg { width: 1.8rem; height: 1.8rem; }
+      
+      .top-dock-container { position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 90rem; height: 4.5rem; display: flex; justify-content: space-between; align-items: center; padding: 0 1.5rem; box-sizing: border-box; z-index: 3000; gap: 0.6rem; pointer-events: none; transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+      .dock-capsule { pointer-events: auto; background: var(--capsule-bg); border: 1px solid var(--capsule-border); border-radius: 6rem; padding: 0.5rem 1.25rem; display: flex; align-items: center; gap: 0.75rem; box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.3); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); font-weight: 700; color: var(--text-main); }
+      .dock-collapsed { transform: translateY(-150%); opacity: 0 !important; pointer-events: none !important; }
+      .dock-center-visible { transform: translateX(-50%) translateY(0) !important; opacity: 1 !important; pointer-events: auto !important; }
+      .dock-btn { color: var(--text-muted); transition: all 0.4s var(--ease-wobble); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+      .dock-btn:hover { color: var(--text-main); transform: scale(1.15) rotate(-5deg); }
+      .dock-btn svg { width: 1.25rem; height: 1.25rem; }
+      .dock-sep { width: 1px; height: 0.9rem; background: var(--glass-border); }
+      .clock-display { font-family: 'Bungee', cursive; font-size: 0.9rem; color: var(--text-main); min-width: 3rem; text-align: center; font-weight: 800; }
+      .dock-lifted { transform: translateX(-50%) translateY(-150%) !important; opacity: 0 !important; pointer-events: none !important; }
+      
+      .toggle-container { position: relative; width: 50px; height: 28px; cursor: pointer; outline: none; -webkit-tap-highlight-color: transparent; }
+      .toggle-input { opacity: 0; width: 0; height: 0; position: absolute; }
+      .toggle-track { position: absolute; inset: 0; background: var(--track-off); border-radius: 100px; transition: background-color var(--m3-duration) var(--m3-easing); }
+      .toggle-thumb { position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; background-color: var(--thumb-off); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all var(--m3-duration) var(--m3-easing); z-index: 2; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+      .toggle-input:checked + .toggle-track { background-color: var(--track-on); }
+      .toggle-input:checked + .toggle-track .toggle-thumb { transform: translateX(22px); background-color: var(--thumb-on); }
+      .toggle-container:active .toggle-thumb { width: 28px; transform: scaleY(0.85) translateY(1px); transition: all 150ms ease-out; }
+      .toggle-input:checked + .toggle-track .toggle-container:active .toggle-thumb { transform: translateX(16px) scaleY(0.85); }
+
+      .m3-soft-button { position: relative; width: 44px; height: 44px; background-color: var(--sq-btn-bg); color: var(--sq-btn-text); border-radius: 14px; border: none; outline: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); transition: transform 500ms var(--m3-easing), background-color 300ms linear, box-shadow 300ms var(--m3-easing); font-family: var(--font-body); will-change: transform; }
+      .m3-soft-button:hover { transform: scaleX(1.08) scaleY(0.96); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1); }
+      .m3-soft-button:active { transform: scaleX(1.15) scaleY(0.9) translateY(2px); transition: transform 200ms cubic-bezier(0, 0, 0.2, 1); }
+      .icon-container { width: 20px; height: 20px; position: relative; transition: transform 500ms var(--m3-easing); }
+      .m3-soft-button:hover .icon-container { transform: scaleY(0.95); }
+      .icon-svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+      .path-copy, .path-check { transition: opacity 300ms var(--m3-easing), transform 300ms var(--m3-easing), stroke-dashoffset 500ms var(--m3-easing); }
+      .path-check { stroke-dasharray: 40; stroke-dashoffset: 40; opacity: 0; }
+      .m3-soft-button.is-success { animation: soft-pulse 1s var(--m3-easing); }
+      @keyframes soft-pulse { 0% { transform: scaleX(1.15) scaleY(0.9) translateY(2px); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
+      .m3-soft-button.is-success .path-copy { opacity: 0; transform: scale(0.8); }
+      .m3-soft-button.is-success .path-check { opacity: 1; stroke-dashoffset: 0; }
+
+      .btn3d { position: relative; border: 0; transition: transform 500ms var(--m3-easing), background-color 300ms linear, box-shadow 300ms var(--m3-easing); border-radius: 3rem; padding: 0.6rem 1.25rem; font-weight: 800; cursor: pointer; width: 100%; text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-size: 1rem; font-family: var(--font-heading); }
+      .btn3d:hover { transform: scaleX(1.02) scaleY(0.98); }
+      .btn3d:active { transform: scaleX(1.05) scaleY(0.9) translateY(1px); transition: transform 200ms cubic-bezier(0, 0, 0.2, 1); }
+      .btn3d.btn-white { background-color: var(--btn-bg); color: var(--btn-text); box-shadow: 0 0.3rem 0.9rem rgba(0, 0, 0, 0.1); }
+      .btn3d.btn-glass { background-color: var(--setting-btn-bg); color: var(--text-main); border: 1px solid var(--glass-border); }
+      .btn3d.btn-glass:hover { background-color: var(--setting-btn-hover); }
+
+      .custom-input { background: var(--setting-btn-bg); color: var(--text-main); border: 1px solid var(--glass-border); transition: 0.3s; font-size: 1rem; border-radius: 0.75rem; padding: 0.75rem; outline: none; font-weight: 600; font-family: inherit; }
+      .custom-input:focus { background: var(--setting-btn-hover); border-color: var(--btn-bg); }
+      
+      .m3-input { background: transparent; color: var(--text-main); width: 100%; padding: 0.8rem; border-bottom: 1px solid var(--glass-border); outline: none; font-size: 1rem; text-align: center; transition: 0.3s; font-weight: 700; font-family: inherit; }
+      .m3-input:focus { border-bottom-color: var(--btn-bg); }
+
+      .auth-frame { background: var(--setting-btn-bg); border: 1px solid var(--glass-border); border-radius: 1.25rem; padding: 1.25rem; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
+      .auth-frame:hover { background: var(--setting-btn-hover); border-color: var(--text-main); transform: translateY(-2px); box-shadow: 0 10px 20px -5px rgba(0,0,0,0.1); }
+      .auth-frame-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 800; }
+
+      .fullscreen-panel { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); z-index: 1000; display: flex; align-items: center; justify-content: center; flex-direction: column; opacity: 0; pointer-events: none; transition: 0.4s; padding-top: 5rem; padding-bottom: 2rem; }
+      .fullscreen-panel.active { opacity: 1; pointer-events: auto; }
+      .modal-inner { transform: scale(0.9) translateY(1.25rem); opacity: 0; transition: all 0.5s var(--ease-out-back); }
+      .fullscreen-panel.active .modal-inner { transform: scale(1) translateY(0); opacity: 1; }
+
+      .floating-close-capsule {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        z-index: 2050;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        border-radius: 50%;
+        background: var(--capsule-bg);
+        border: 1px solid var(--capsule-border);
+        color: var(--text-main);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        transition: transform 0.3s var(--ease-out-back), background 0.3s;
+        cursor: pointer;
+      }
+      .floating-close-capsule span { display: none; }
+      .floating-close-capsule:hover {
+        transform: scale(1.1);
+        background: var(--btn-bg);
+        color: var(--btn-text);
+      }
+      .floating-close-capsule:active {
+        transform: scale(0.9);
+      }
+
+      .m3-sidebar { width: 220px; display: flex; flex-direction: column; padding: 1rem; gap: 0.25rem; flex-shrink: 0; background: transparent; border-right: 1px solid var(--glass-border); }
+      .m3-tab { padding: 0.5rem 0.75rem; border-radius: 0.6rem; text-align: left; font-weight: 600; font-size: 0.8rem; color: var(--text-main); transition: all 0.2s ease; display: flex; align-items: center; gap: 0.5rem; border: none; outline: none; cursor: pointer; background: transparent; opacity: 0.7; font-family: inherit; letter-spacing: -0.01em; }
+      .m3-tab svg { width: 1.1rem; height: 1.1rem; }
+      .m3-tab:hover { background: var(--setting-btn-bg); opacity: 1; transform: none; }
+      .m3-tab.active { background: var(--setting-btn-hover); opacity: 1; transform: none; box-shadow: none; font-weight: 700; }
+      
+      .m3-content-area { flex: 1; padding: 1.25rem; overflow-y: auto; background: transparent; margin: 0; border-radius: 0; box-shadow: none; border: none; position: relative; }
+      
+      .m3-card { background: var(--setting-btn-bg); border: 1px solid var(--glass-border); border-radius: 0.75rem; padding: 0 1rem; margin-bottom: 0.75rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: none; }
+      .m3-card-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 0; padding: 0.75rem 0 0.4rem 0; color: var(--text-main); display: flex; align-items: center; gap: 0.4rem; border-bottom: none; letter-spacing: -0.02em; }
+      .m3-card-title svg { width: 1rem; height: 1rem; opacity: 0.8; }
+      .m3-list-item { display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0; border-bottom: 1px solid var(--glass-border); gap: 0.75rem; }
+      .m3-list-item:last-child { border-bottom: none; padding-bottom: 0.75rem; }
+      .m3-list-title { font-size: 0.85rem; font-weight: 700; letter-spacing: -0.01em; }
+      .m3-list-desc { font-size: 0.7rem; opacity: 0.65; margin-top: 0.15rem; line-height: 1.4; font-weight: 500; }
+
+      @media (max-width: 768px) {
+          .m3-sidebar { width: 100%; flex-direction: row; overflow-x: auto; padding: 1rem 0.5rem; gap: 0.5rem; border-bottom: 1px solid var(--glass-border); border-right: none; }
+          .m3-tab { padding: 0.6rem 1rem; white-space: nowrap; flex-shrink: 0; border-radius: 999px; font-size: 0.85rem; }
+          .m3-tab:hover { transform: translateY(-2px); }
+          .m3-tab.active { transform: scale(1.05); }
+          .m3-content-area { padding: 1rem 0.75rem; margin: 0; border-radius: 0; box-shadow: none; background: transparent; border: none; }
+          .m3-card { padding: 0 1rem; border-radius: 1rem; margin-bottom: 1rem; }
+      }
+
+      .m3-swatch { position: relative; width: 32px; height: 32px; border-radius: 50%; overflow: hidden; transition: all 0.3s; cursor: pointer; border: 2px solid transparent; }
+      .m3-swatch:hover { transform: scale(1.1); }
+      .m3-swatch.active { transform: scale(1.1); border-color: var(--btn-bg); box-shadow: 0 0 15px rgba(255,255,255,0.2); }
+      .m3-swatch-inner { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.1); }
+      .m3-swatch-check { width: 8px; height: 8px; background: #fff; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+
+      #mini-settings-popover { position: fixed; width: 260px; background: var(--ctx-bg); border: 1px solid var(--ctx-border); box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.4); border-radius: 1.5rem; padding: 1rem; z-index: 2001; display: flex; flex-direction: column; gap: 1rem; opacity: 0; transform: translateY(-10px) scale(0.95); pointer-events: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); color: var(--ctx-text); font-weight: 700; }
+      #mini-settings-popover.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+
+      .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+      .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+      .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
+      .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      
+      .font-option { padding: 0.5rem; border-radius: 0.5rem; background: var(--setting-btn-bg); border: 1px solid var(--glass-border); cursor: pointer; transition: 0.2s; text-align: center; font-size: 0.8rem; font-weight: 700; color: var(--text-main); }
+      .font-option:hover, .font-option.active { background: var(--btn-bg); color: var(--btn-text); border-color: var(--btn-bg); }
+
+      #context-menu { position: fixed; z-index: 9999; background: var(--ctx-bg); border: 1px solid var(--ctx-border); border-radius: 12px; padding: 6px; display: flex; flex-direction: column; gap: 4px; min-width: 180px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); opacity: 0; transform: scale(0.95); pointer-events: none; transition: opacity 0.15s ease, transform 0.15s ease; color: var(--ctx-text); }
+      #context-menu.active { opacity: 1; transform: scale(1); pointer-events: auto; }
+      .ctx-item { padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: background 0.2s; color: var(--ctx-text); }
+      .ctx-item:hover { background: var(--ctx-hover); }
+      .ctx-divider { height: 1px; background: var(--glass-border); margin: 2px 0; }
+      
+      .glass-panel.edit-mode { animation: shake 2s infinite ease-in-out !important; border-color: rgba(128,128,128,0.5); cursor: grab; opacity: 1 !important; }
+      .glass-panel.edit-mode:active { cursor: grabbing; }
+      .glass-panel.dragging { opacity: 0.4 !important; transform: scale(0.95) !important; border: 2px dashed var(--btn-bg) !important; }
+      
+      @keyframes shake { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(0.5deg); } 75% { transform: rotate(-0.5deg); } }
+      
+      @keyframes rotate-clock {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      .rotate-clock-infinite {
+        animation: rotate-clock 12s linear infinite;
+        transform-origin: center;
+        display: inline-block;
+      }
+
+      .clock-tick { animation: rotate-clock 12s linear infinite; transform-origin: center; }
+    </style>
+  </head>
+  <body class="antialiased expressive-mode relative">
+
+    <canvas id="particle-canvas" class="fixed inset-0 pointer-events-none z-[1] opacity-40"></canvas>
+    
+    <div id="qrModal" class="fullscreen-panel z-[2000]">
+        <div class="glass-panel modal-inner p-0 w-auto h-auto relative bg-white rounded-2xl flex flex-col mt-0">
+            <button onclick="document.getElementById('qrModal').classList.remove('active')" class="floating-close-capsule">
+                <i data-lucide="x" class="w-5 h-5 text-black"></i>
+            </button>
+            <div class="p-8 flex items-center justify-center bg-white rounded-2xl">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://t.me/pubertatnyj" alt="Big QR" class="w-64 h-64 mix-blend-multiply" />
+            </div>
+        </div>
+    </div>
+
+    <div id="context-menu">
+        <div class="ctx-item" onclick="window.toggleEditMode()">
+            <i data-lucide="layout-grid" class="w-4 h-4"></i>
+            <span data-i18n="ctx_edit">Редактировать макет</span>
+        </div>
+        <div class="ctx-divider"></div>
+        <div class="ctx-item" onclick="window.location.reload()">
+            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+            <span data-i18n="ctx_refresh">Обновить</span>
+        </div>
+    </div>
+
+    <!-- MINI SETTINGS POPOVER -->
+    <div id="mini-settings-popover">
+        <div class="flex items-center justify-between pb-2 border-b" style="border-color: var(--glass-border);">
+            <span class="text-xs font-bold uppercase tracking-wider opacity-60" data-i18n="quick_settings">Быстрые настройки</span>
+            <button onclick="window.closeMiniSettings()" class="opacity-50 hover:opacity-100 transition"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </div>
+        <div class="p-1 rounded-xl flex gap-1" style="background: var(--setting-btn-bg);">
+             <button onclick="window.setLanguage('en')" class="flex-1 text-xs font-bold py-1.5 rounded-lg transition-all opacity-60 hover:opacity-100" id="pop-lang-en">EN</button>
+             <div class="w-px my-1" style="background: var(--glass-border);"></div>
+             <button onclick="window.setLanguage('ru')" class="flex-1 text-xs font-bold py-1.5 rounded-lg transition-all opacity-60 hover:opacity-100" id="pop-lang-ru">RU</button>
+        </div>
+        <div class="flex flex-col gap-3">
+             <div class="flex items-center justify-between">
+                <span class="text-xs font-bold" data-i18n="set_theme_engine">Светлая/Темная</span>
+                <label class="theme-toggle scale-75 origin-right">
+                    <input type="checkbox" class="tt-input" id="menu-toggle-theme" onchange="window.toggleTheme()">
+                    <div class="tt-track">
+                        <div class="tt-thumb">
+                            <svg class="tt-icon icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" /></svg>
+                            <svg class="tt-icon icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                        </div>
+                    </div>
+                </label>
+             </div>
+             <div class="flex items-center justify-between">
+                <span class="text-xs font-bold" data-i18n="set_pitch_black">Глубокий черный</span>
+                <label class="toggle-container scale-75 origin-right">
+                    <input type="checkbox" class="toggle-input" id="menu-toggle-cyclamen" onchange="window.toggleCyclamenM3()">
+                    <div class="toggle-track"><div class="toggle-thumb"></div></div>
+                </label>
+             </div>
+        </div>
+        <button onclick="window.openFullSettings()" class="w-full py-2 text-xs font-bold opacity-50 hover:opacity-100 rounded-lg transition text-left px-2 flex items-center justify-between group hover:bg-white/5" style="background: transparent;">
+            <span data-i18n="more_settings">Все настройки...</span>
+            <i data-lucide="chevron-right" class="w-3 h-3 group-hover:translate-x-1 transition"></i>
+        </button>
+    </div>
+
+    <!-- FULLSCREEN SETTINGS APP -->
+    <div id="fullSettingsPanel" class="fullscreen-panel z-[2000] !p-0">
+        <div class="modal-inner w-full h-full relative overflow-hidden flex flex-col md:flex-row m-0 p-0 rounded-none border-none transition-colors" style="background: var(--glass-bg); color: var(--text-main);">
+            <button onclick="document.getElementById('fullSettingsPanel').classList.remove('active'); document.getElementById('main-dock').classList.remove('dock-lifted');" class="absolute top-4 right-4 md:top-5 md:right-5 z-[2050] p-2 opacity-50 hover:opacity-100 transition">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            
+            <div class="m3-sidebar">
+                <div class="px-4 py-2 mb-2 md:mb-4 mt-2">
+                    <h2 class="text-2xl md:text-3xl font-extrabold tracking-tighter" data-i18n="settings">Настройки</h2>
+                </div>
+                <div class="px-4 mb-4 hidden md:block">
+                    <div class="flex items-center gap-3 p-2.5 rounded-[0.75rem] transition-all hover:bg-white/5 border border-transparent hover:border-white/10 cursor-default">
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-md" style="background: var(--btn-bg); color: var(--btn-text);" id="settings-user-avatar">U</div>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-extrabold text-[0.85rem] truncate tracking-tight" id="settings-user-name">User</div>
+                            <div class="text-[0.55rem] opacity-60 truncate font-bold uppercase tracking-widest mt-0.5" data-i18n="local_account">Локальный аккаунт</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-1 overflow-y-auto flex flex-col gap-1 pb-4 md:px-0 px-2 no-scrollbar">
+                    <button class="m3-tab active" data-tab="appearance" onclick="window.switchSettingsTab('appearance')">
+                        <i data-lucide="palette"></i>
+                        <span data-i18n="set_appearance">Внешний вид</span>
+                    </button>
+                    <button class="m3-tab" data-tab="system" onclick="window.switchSettingsTab('system')">
+                        <i data-lucide="cpu"></i>
+                        <span data-i18n="settings_system">Система</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="m3-content-area custom-scrollbar relative">
+                <!-- SECTION: APPEARANCE -->
+                <div id="tab-appearance" class="settings-section active-tab flex flex-col max-w-4xl mx-auto">
+                    <h3 class="text-2xl md:text-3xl leading-[1.1] font-extrabold mb-4 tracking-tighter hidden md:block pr-8" data-i18n="set_appearance">Внешний вид</h3>
+                    
+                    <div class="m3-card">
+                        <div class="m3-card-title"><i data-lucide="languages"></i> <span data-i18n="set_lang">Язык</span></div>
+                        <div class="flex p-0.5 rounded-lg max-w-[200px] mt-2 mb-2" style="background: var(--ctx-bg); border: 1px solid var(--glass-border);">
+                            <button onclick="window.setLanguage('en')" class="flex-1 text-[11px] font-bold py-1.5 rounded-md transition-all opacity-60 hover:opacity-100" id="set-lang-en">English</button>
+                            <button onclick="window.setLanguage('ru')" class="flex-1 text-[11px] font-bold py-1.5 rounded-md transition-all opacity-60 hover:opacity-100" id="set-lang-ru">Русский</button>
+                        </div>
+                    </div>
+                    
+                    <div class="m3-card">
+                        <div class="m3-card-title"><i data-lucide="layers"></i> <span data-i18n="set_theme_engine">Светлая/Темная</span></div>
+                        <div class="m3-list-item mt-1 border-b-0">
+                            <div>
+                                <div class="m3-list-title" data-i18n="set_light_mode">Светлая тема</div>
+                                <div class="m3-list-desc" data-i18n="set_light_mode_desc">Делает интерфейс светлым</div>
+                            </div>
+                            <label class="theme-toggle origin-right scale-75">
+                                <input type="checkbox" class="tt-input" id="set-toggle-theme" onchange="window.toggleTheme()">
+                                <div class="tt-track">
+                                    <div class="tt-thumb">
+                                        <svg class="tt-icon icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" /></svg>
+                                        <svg class="tt-icon icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="m3-list-item">
+                            <div>
+                                <div class="m3-list-title" data-i18n="set_pitch_black">Глубокий черный</div>
+                                <div class="m3-list-desc" data-i18n="set_pitch_black_desc">Абсолютно черные панели</div>
+                            </div>
+                            <label class="toggle-container origin-right scale-75">
+                                <input type="checkbox" class="toggle-input" id="set-toggle-cyclamen" onchange="window.toggleCyclamenM3()">
+                                <div class="toggle-track"><div class="toggle-thumb"></div></div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="m3-card" style="padding: 1.5rem 1.25rem;">
+                        <div class="m3-card-title"><i data-lucide="droplet"></i> <span data-i18n="set_m3_palette">Палитры Material 3</span></div>
+                        <p class="m3-list-desc mb-4" data-i18n="set_m3_desc">Выберите базовый цвет системы.</p>
+                        <div class="flex gap-4 flex-wrap justify-start items-center">
+                            <div id="full-swatches-container" class="flex gap-4 flex-wrap"></div>
+                            <div class="w-px h-8 bg-white/20 mx-2"></div>
+                            
+                            <!-- MIX THEME & CUSTOM CREATOR TRIGGERS -->
+                            <div class="flex gap-3 items-center">
+                                <div class="flex flex-col items-center">
+                                    <span class="text-[0.6rem] font-bold uppercase tracking-widest opacity-60 mb-1">Custom</span>
+                                    <input type="color" id="custom-theme-color" value="#ff0000" class="w-8 h-8 rounded-full cursor-pointer border-0 p-0 shadow-lg" onchange="window.setCustomTheme(this.value)">
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <span class="text-[0.6rem] font-bold uppercase tracking-widest opacity-60 mb-1" data-i18n="custom_donut_btn">Mixer</span>
+                                    <button onclick="window.openCustomThemeCreator()" class="w-8 h-8 rounded-full flex items-center justify-center transition hover:scale-110 active:scale-95 shadow-lg bg-white/10 hover:bg-white/20 border border-white/10" style="color: var(--text-main);">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-donut-icon lucide-donut w-4 h-4"><path d="M20.5 10a2.5 2.5 0 0 1-2.4-3H18a2.95 2.95 0 0 1-2.6-4.4 10 10 0 1 0 6.3 7.1c-.3.2-.8.3-1.2.3"/><circle cx="12" cy="12" r="3"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="m3-card" style="padding: 1.5rem 1.25rem;">
+                         <div class="m3-card-title"><i data-lucide="type"></i> <span data-i18n="set_typography">Типографика</span></div>
+                         <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mt-4">
+                              <div class="font-option py-2 text-[0.75rem]" style="font-family: 'Plus Jakarta Sans', sans-serif;" onclick="window.setFont('body', 'Plus Jakarta Sans, sans-serif')">Modern</div>
+                              <div class="font-option py-2 text-[0.75rem]" style="font-family: 'Inter', sans-serif;" onclick="window.setFont('body', 'Inter, sans-serif')">Inter</div>
+                              <div class="font-option py-2 text-[0.75rem]" style="font-family: 'Space Mono', monospace;" onclick="window.setFont('body', 'Space Mono, monospace')">Space Mono</div>
+                              <div class="font-option py-2 text-[0.75rem]" style="font-family: 'Merriweather', serif;" onclick="window.setFont('body', 'Merriweather, serif')">Academic</div>
+                              <div class="font-option py-2 text-[0.75rem]" style="font-family: 'Comfortaa', cursive;" onclick="window.setFont('body', 'Comfortaa, cursive')">Rounded</div>
+                              <div class="font-option py-2 text-[0.75rem]" style="font-family: 'Courier Prime', monospace;" onclick="window.setFont('body', 'Courier Prime, monospace')">Code Mono</div>
+                         </div>
+                    </div>
+                </div>
+
+                <!-- SECTION: SYSTEM -->
+                <div id="tab-system" class="settings-section flex-col max-w-4xl mx-auto" style="display: none;">
+                    <h3 class="text-2xl md:text-3xl leading-[1.1] font-extrabold mb-4 tracking-tighter hidden md:block pr-8" data-i18n="settings_system">Система</h3>
+                    
+                    <div class="m3-card">
+                        <div class="m3-card-title"><i data-lucide="command"></i> <span data-i18n="set_shortcuts">Горячие клавиши и ссылки</span></div>
+                        
+                        <div class="mt-3 mb-4">
+                            <label class="m3-list-title mb-1.5 block" data-i18n="settings_panic_url">Ссылка экстренного выхода</label>
+                            <input type="text" id="panic-url-input" class="custom-input w-full py-2 text-[0.85rem] rounded-xl" placeholder="https://google.com" onchange="localStorage.setItem('panicUrl', this.value); state.panicUrl = this.value;" style="color: var(--text-main);">
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <label class="m3-list-title mb-1.5 block" data-i18n="settings_panic_key">Кнопка экстренного выхода</label>
+                                <input type="text" class="custom-input w-full py-2 text-[0.85rem] rounded-xl key-capture cursor-pointer font-mono" readonly value="Escape" onclick="window.startKeyCapture(this, 'panicKey')">
+                            </div>
+                            <div>
+                                <label class="m3-list-title mb-1.5 block" data-i18n="settings_assistant">Кнопка вызова ассистента</label>
+                                <input type="text" class="custom-input w-full py-2 text-[0.85rem] rounded-xl key-capture cursor-pointer font-mono" readonly value="Ctrl+E" onclick="window.startKeyCapture(this, 'assistantKey')">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 flex flex-col gap-2">
+                        <button onclick="window.logoutUser()" class="btn3d btn-glass w-full py-2 text-[0.9rem] rounded-xl" data-i18n="set_logout">
+                            Выйти из системы
+                        </button>
+                        <div class="text-[9px] opacity-50 text-center uppercase tracking-widest px-4 font-bold" data-i18n="destroy_warning">
+                            Это действие сбросит все настройки и удалит кэш-пакеты.
+                        </div>
+                        <div class="text-center text-xs opacity-40 cursor-pointer hover:opacity-100 transition mt-1 font-mono font-bold" onclick="window.handleVersionClick()">
+                            AsterOS Web Core: LinkerRu XII (V29/stable)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- APP DETAILS MODAL -->
+    <div id="appDetailsModal" class="fullscreen-panel z-[2050]">
+        <div class="glass-panel modal-inner p-0 w-full max-w-2xl relative overflow-hidden flex flex-col mt-0" style="background: var(--ctx-bg); border: 1px solid var(--ctx-border); color: var(--ctx-text); max-height: calc(100vh - 7rem);">
+            <button onclick="document.getElementById('appDetailsModal').classList.remove('active')" class="floating-close-capsule">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            
+            <div class="p-8 flex gap-6 items-center border-b" style="border-color: var(--glass-border);">
+                <div id="details-icon-box" class="w-24 h-24 rounded-3xl flex items-center justify-center border shadow-xl shrink-0" style="background: var(--setting-btn-bg); border-color: var(--glass-border);">
+                </div>
+                <div class="flex-1 flex flex-col items-start min-w-0">
+                    <h2 id="details-title" class="text-3xl font-bold truncate w-full" style="font-family: var(--font-heading);">App Name</h2>
+                    <p id="details-short-desc" class="text-sm opacity-60 mt-1 uppercase tracking-widest font-bold">Short desc</p>
+                    <div class="mt-4 flex gap-3 w-full">
+                        <button id="details-launch-btn" class="btn3d btn-white py-2 px-8 flex-1 md:flex-none">Open</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-8 overflow-y-auto custom-scrollbar flex-1 space-y-6">
+                <div id="details-screenshots" class="flex gap-4 overflow-x-auto no-scrollbar pb-2"></div>
+                <div>
+                    <h3 class="text-lg font-bold mb-2" data-i18n="app_details_about">Об игре/приложении</h3>
+                    <p id="details-long-desc" class="text-sm opacity-70 leading-relaxed whitespace-pre-line"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOM THEME CREATOR POPUP (MIXER) -->
+    <div id="customThemeCreatorModal" class="fullscreen-panel z-[2050]">
+        <div class="glass-panel modal-inner p-6 w-full max-w-lg relative overflow-hidden flex flex-col mt-0" style="background: var(--ctx-bg); border: 1px solid var(--ctx-border); color: var(--ctx-text); max-height: calc(100vh - 7rem);">
+            <button onclick="document.getElementById('customThemeCreatorModal').classList.remove('active')" class="floating-close-capsule">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            
+            <div class="flex items-center gap-3 mb-6 pr-8">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center bg-white/10" style="color: var(--text-main);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-donut-icon lucide-donut w-6 h-6"><path d="M20.5 10a2.5 2.5 0 0 1-2.4-3H18a2.95 2.95 0 0 1-2.6-4.4 10 10 0 1 0 6.3 7.1c-.3.2-.8.3-1.2.3"/><circle cx="12" cy="12" r="3"/></svg>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold" data-i18n="create_theme_title" style="font-family: var(--font-heading);">Создатель темы</h2>
+                    <p class="text-xs opacity-60" data-i18n="create_theme_desc">Создайте уникальный многоцветный микс</p>
+                </div>
+            </div>
+            
+            <div class="space-y-4 flex-1 overflow-y-auto custom-scrollbar pr-1">
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="flex flex-col gap-1.5 p-3 rounded-xl bg-white/5 border" style="border-color: var(--glass-border);">
+                        <span class="text-xs font-bold opacity-70">Основной цвет (Primary)</span>
+                        <input type="color" id="creator-primary" value="#6750a4" class="w-full h-10 rounded-lg cursor-pointer border-0 p-0">
+                    </div>
+                    <div class="flex flex-col gap-1.5 p-3 rounded-xl bg-white/5 border" style="border-color: var(--glass-border);">
+                        <span class="text-xs font-bold opacity-70">Вторичный (Secondary)</span>
+                        <input type="color" id="creator-secondary" value="#ffd9e2" class="w-full h-10 rounded-lg cursor-pointer border-0 p-0">
+                    </div>
+                    <div class="flex flex-col gap-1.5 p-3 rounded-xl bg-white/5 border" style="border-color: var(--glass-border);">
+                        <span class="text-xs font-bold opacity-70">Фон (Background)</span>
+                        <input type="color" id="creator-bg" value="#1c1b1f" class="w-full h-10 rounded-lg cursor-pointer border-0 p-0">
+                    </div>
+                    <div class="flex flex-col gap-1.5 p-3 rounded-xl bg-white/5 border" style="border-color: var(--glass-border);">
+                        <span class="text-xs font-bold opacity-70">Панели (Surface)</span>
+                        <input type="color" id="creator-surface" value="#2b292f" class="w-full h-10 rounded-lg cursor-pointer border-0 p-0">
+                    </div>
+                </div>
+
+                <!-- PREVIEW BOX -->
+                <div class="p-4 rounded-xl border flex flex-col gap-2 relative overflow-hidden transition-colors" id="creator-preview-card" style="background: #1c1b1f; border-color: rgba(255,255,255,0.1);">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] uppercase tracking-widest font-bold opacity-50">Предпросмотр</span>
+                        <div class="w-3 h-3 rounded-full" style="background: #6750a4; box-shadow: 0 0 8px #6750a4;"></div>
+                    </div>
+                    <div class="text-sm font-bold" style="color: #ffffff;">Моя кастомная палитра</div>
+                    <div class="text-[10px] opacity-70 animate-pulse" style="color: #eaddff;">Сочетание выбранных оттенков в реальном времени</div>
+                    <button class="mt-2 py-2 px-4 rounded-lg font-bold text-xs" style="background: #6750a4; color: #ffffff;">Демонстрационная кнопка</button>
+                </div>
+            </div>
+
+            <div class="pt-4 mt-2 border-t flex gap-3" style="border-color: var(--glass-border);">
+                <button onclick="window.saveCreatedTheme()" class="btn3d btn-white py-2.5 flex-1 text-sm">Применить стиль</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN INTERFACE -->
+    <div class="top-dock-container hidden" id="main-dock">
+      <div id="dock-left" class="flex gap-2 auth-wait h-[3.25rem]" style="animation-delay: 0ms; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);">
+          <div id="dock-weather" class="dock-capsule cursor-pointer hover:bg-black/10 dark:hover:bg-white/10 transition hidden" onclick="window.openWeatherModal()">
+            <div class="weather-display flex items-center gap-1 opacity-70" id="weather-widget">
+               <span id="weather-temp" class="clock-display">--°</span>
+            </div>
+          </div>
+          <div id="dock-date" class="dock-capsule cursor-pointer hover:bg-black/10 dark:hover:bg-white/10 transition" onclick="window.openCalendarModal()">
+            <div class="clock-display opacity-70" id="date-display">01.01</div>
+          </div>
+          <div id="dock-time" class="dock-capsule cursor-pointer hover:bg-black/10 dark:hover:bg-white/10 transition" onclick="window.openClockModal()">
+            <div class="clock-display" id="clock">00:00</div>
+          </div>
+      </div>
+
+      <div id="dock-center" class="dock-capsule dock-collapsed h-[3.25rem]" style="position: absolute; left: 50%; transform: translateX(-50%) translateY(-150%);">
+        <div class="dock-btn" onclick="window.closeCurrentApp()" title="Home"><i data-lucide="home" class="w-5 h-5"></i></div>
+        <div class="dock-sep"></div>
+        <div class="dock-btn" onclick="window.openProxy('https://lisyan.netlify.app/', 'ManasAi')" title="ManasAi">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 370 340" class="w-5 h-5">
+                <g>
+                    <path d="M22.066 131.808h95.32L76.42 5.735c-2.107-6.487-11.284-6.487-13.39 0L22.065 131.808z" fill="currentColor" />
+                    <path d="M348.73 131.808h-95.32L294.376 5.735c2.108-6.487 11.285-6.487 13.392 0l40.963 126.073z" fill="currentColor" />
+                    <path d="M185.398 341.13l68.013-209.322H117.39L185.4 341.13z" fill="currentColor" />
+                    <path d="M185.398 341.13l-68.013-209.322h-95.32L185.4 341.128z" fill="currentColor" opacity="0.8" />
+                    <path d="M185.398 341.13l68.013-209.322h95.32L185.4 341.128z" fill="currentColor" opacity="0.8" />
+                    <path d="M22.066 131.808l-20.67 63.61c-1.884 5.803.18 12.16 5.117 15.744L185.398 341.13 22.066 131.807z" fill="currentColor" opacity="0.5" />
+                    <path d="M348.73 131.808l20.67 63.61c1.884 5.803-.18 12.16-5.117 15.744L185.398 341.13 348.73 131.807z" fill="currentColor" opacity="0.5" />
+                </g>
+            </svg>
+        </div>
+      </div>
+      <div class="flex gap-2 auth-wait" style="animation-delay: 100ms">
+        <div id="dock-right" class="dock-capsule h-[3.25rem]">
+          <div class="dock-btn" onclick="window.openTelegramModal()" title="Telegram"><i data-lucide="send" class="w-5 h-5"></i></div>
+          <div class="dock-sep"></div>
+          <div class="dock-btn" onclick="window.openChangelog()" title="Changelog"><i data-lucide="file-text" class="w-5 h-5"></i></div>
+          <div class="dock-sep"></div>
+          <div class="dock-btn" id="dock-settings-btn" onclick="window.openSettings(event)"><i data-lucide="settings" class="w-5 h-5"></i></div>
+        </div>
+        <div id="dock-donate" class="dock-capsule cursor-pointer hover:bg-black/10 dark:hover:bg-white/10 transition h-[3.25rem] !px-3" onclick="window.open('https://gofund.me/cab1a1a37', '_blank')" title="Donate">
+           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" class="w-6 h-6 text-pink-400">
+               <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm0-128a40,40,0,1,0,40,40A40,40,0,0,0,128,88Zm0,64a24,24,0,1,1,24-24A24,24,0,0,1,128,152Z"/>
+           </svg>
+        </div>
+      </div>
+    </div>
+    
+    <div id="mainContent">
+      <div class="big-panel auth-wait" style="animation-delay: 0ms">
+        <header class="section-header select-none text-left">
+          <div class="inline-flex items-center justify-center px-4 py-1.5 rounded-full border mb-4 font-bold text-[0.65rem] tracking-[0.2em] uppercase shadow-sm transition-colors" style="background: var(--setting-btn-bg); border-color: var(--glass-border); color: var(--text-main);">LinkerRu x Lisyan</div>
+          <h1 class="text-5xl md:text-6xl font-bold cursor-pointer select-none leading-none tracking-tight" id="page-title">LinkerRu XII</h1>
+          <div class="text-xs opacity-50 mt-2 font-medium mb-2" data-i18n="system_text">в29/стабильная (stable) / local</div>
+        </header>
+          
+        <div class="dashboard-grid">
+          <div id="cards-container" class="contents-display"></div>
+            
+          <!-- BREWING PAD 1 -->
+          <div class="glass-panel cursor-pointer auth-wait" style="animation-delay: 300ms">
+            <div class="flex flex-col items-start justify-center flex-1 w-full pb-4">
+              <div class="card-icon-box">
+                <i data-lucide="clock" class="w-7 h-7 rotate-clock-infinite text-white/80"></i>
+              </div>
+              <div class="text-left w-full mb-2">
+                <h2 class="txt-title mb-0 truncate" data-i18n="brewing_title">Something is brewing</h2>
+                <div class="txt-desc truncate" data-i18n="brewing_desc">App locked / В разработке</div>
+              </div>
+            </div>
+            <button class="btn3d btn-white w-full opacity-50 cursor-not-allowed" disabled><span data-i18n="app_btn_locked">Заблокировано</span></button>
+          </div>
+
+          <!-- BREWING PAD 2 -->
+          <div class="glass-panel cursor-pointer auth-wait" style="animation-delay: 350ms">
+            <div class="flex flex-col items-start justify-center flex-1 w-full pb-4">
+              <div class="card-icon-box">
+                <i data-lucide="clock" class="w-7 h-7 rotate-clock-infinite text-white/80"></i>
+              </div>
+              <div class="text-left w-full mb-2">
+                <h2 class="txt-title mb-0 truncate" data-i18n="brewing_title">Something is brewing</h2>
+                <div class="txt-desc truncate" data-i18n="brewing_desc">App locked / В разработке</div>
+              </div>
+            </div>
+            <button class="btn3d btn-white w-full opacity-50 cursor-not-allowed" disabled><span data-i18n="app_btn_locked">Заблокировано</span></button>
+          </div>
+            
+          <div class="glass-panel auth-wait" style="animation-delay: 400ms">
+            <div class="flex items-center gap-2 mb-4">
+              <i data-lucide="link" class="w-5 h-5 opacity-70"></i>
+              <h2 class="txt-title text-sm uppercase tracking-wider opacity-70" data-i18n="links_title">Ссылки</h2>
+            </div>
+            <div class="flex flex-col gap-3 flex-1 justify-center">
+                <div class="flex gap-2 w-full items-center">
+                    <button class="btn3d btn-white flex-1 flex items-center justify-center gap-2" onclick="window.open('https://t.me/linkerRu', '_blank')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></svg> Telegram
+                    </button>
+                    <button class="m3-soft-button w-10 h-10" onclick="window.copyToClipboard('https://web.telegram.org/a/', this)">
+                        <div class="icon-container w-4 h-4">
+                            <svg class="icon-svg" viewBox="0 0 24 24">
+                                <g class="path-copy"><rect x="9" y="9" width="11" height="11" rx="2" ry="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></g>
+                                <path class="path-check" d="M20 6L9 17l-5-5" />
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+                <div class="flex gap-2 w-full items-center">
+                    <button class="btn3d btn-white flex-1 flex items-center justify-center gap-2" onclick="window.open('https://soundcloud.com', '_blank')">
+                        <i data-lucide="music-4" class="w-4 h-4"></i> SoundCloud
+                    </button>
+                    <button class="m3-soft-button w-10 h-10" onclick="window.copyToClipboard('soundcloud.com/', this)">
+                        <div class="icon-container w-4 h-4">
+                            <svg class="icon-svg" viewBox="0 0 24 24">
+                                <g class="path-copy"><rect x="9" y="9" width="11" height="11" rx="2" ry="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></g>
+                                <path class="path-check" d="M20 6L9 17l-5-5" />
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+                <span class="text-[0.65rem] opacity-50 uppercase tracking-widest text-center" data-i18n="copy_instruction">Ссылки сообщества</span>
+            </div>
+          </div>
+            
+          <div class="glass-panel auth-wait" style="animation-delay: 350ms">
+            <div class="flex items-center gap-2 mb-4">
+              <i data-lucide="zap" class="w-5 h-5 opacity-70"></i>
+              <h2 class="txt-title text-sm uppercase tracking-wider opacity-70" data-i18n="quick_toggles">Быстрые настройки</h2>
+            </div>
+            <div class="flex flex-col gap-3 justify-center flex-1">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-bold" data-i18n="set_theme_engine">Светлая/Темная</span>
+                <label class="theme-toggle">
+                    <input type="checkbox" class="tt-input" id="toggle-theme" onchange="window.toggleTheme()">
+                    <div class="tt-track">
+                        <div class="tt-thumb">
+                            <svg class="tt-icon icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" /></svg>
+                            <svg class="tt-icon icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+                        </div>
+                    </div>
+                </label>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-bold" data-i18n="set_pitch_black">Глубокий черный</span>
+                <label class="toggle-container">
+                    <input type="checkbox" class="toggle-input" id="toggle-cyclamen" onchange="window.toggleCyclamenM3()">
+                    <div class="toggle-track"><div class="toggle-thumb"></div></div>
+                </label>
+              </div>
+            </div>
+          </div>
+            
+          <div class="glass-panel widget-card auth-wait" style="animation-delay: 500ms">
+            <div class="flex justify-start items-center mb-4">
+              <h2 class="txt-title flex items-center gap-2"><i data-lucide="user" class="w-5 h-5"></i><span data-i18n="profile">Профиль</span></h2>
+            </div>
+            <div id="auth-container" class="flex-1 flex flex-col gap-2 justify-center min-w-0"></div>
+          </div>
+            
+          <div class="glass-panel widget-card auth-wait relative group" style="animation-delay: 550ms">
+            <h2 class="txt-title mb-4 flex justify-start items-center gap-2 shrink-0"><i data-lucide="newspaper" class="w-5 h-5"></i><span data-i18n="news">Новости</span></h2>
+            <div class="text-sm space-y-2 opacity-80 leading-relaxed overflow-y-auto pr-2 mt-2 custom-scrollbar" id="news-message" style="height: 100%" data-i18n="loading">Загрузка...</div>
+          </div>
+            
+          <div class="glass-panel widget-card widget-support auth-wait" style="animation-delay: 600ms">
+            <h2 class="txt-title mb-2 flex justify-start items-center gap-2 shrink-0"><i data-lucide="life-buoy" class="w-5 h-5"></i><span data-i18n="support">Поддержка</span></h2>
+            <div class="flex flex-col gap-2">
+                <div class="flex gap-3 items-center mb-1">
+                    <div class="bg-white p-1.5 rounded-xl shrink-0 h-16 w-16 flex items-center justify-center cursor-pointer hover:opacity-90 transition" onclick="document.getElementById('qrModal').classList.add('active')">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://t.me/pubertatnyj" alt="Dev QR" class="w-full h-full mix-blend-multiply" />
+                    </div>
+                    <div class="flex flex-col justify-center gap-0.5">
+                       <span class="text-xs font-bold uppercase tracking-wider opacity-80" data-i18n="dev_contact">Разработчик</span>
+                       <span class="text-[10px] opacity-50 leading-tight" data-i18n="scan_dev">Отсканируйте или используйте кнопки ниже.</span>
+                    </div>
+                </div>
+
+                <button onclick="window.open('https://t.me/pubertatnyj', '_blank')" class="flex items-center justify-between w-full p-2.5 rounded-xl transition-all group" style="background: var(--setting-btn-bg); border: 1px solid var(--glass-border);">
+                    <div class="flex items-center gap-2">
+                       <div class="p-1.5 rounded-lg" style="background: var(--btn-bg); color: var(--btn-text);">
+                           <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                       </div>
+                       <div class="flex flex-col items-start">
+                           <span class="text-xs font-bold opacity-90">Telegram</span>
+                           <span class="text-[9px] opacity-50">@pubertatnyj</span>
+                       </div>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-3.5 h-3.5 opacity-30 group-hover:opacity-100 transition"></i>
+                </button>
+
+                <button onclick="window.open('mailto:astercompanybusiness@gmail.com')" class="flex items-center justify-between w-full p-2.5 rounded-xl transition-all group" style="background: var(--setting-btn-bg); border: 1px solid var(--glass-border);">
+                    <div class="flex items-center gap-2 min-w-0">
+                       <div class="p-1.5 rounded-lg shrink-0" style="background: var(--btn-bg); color: var(--btn-text);">
+                           <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+                       </div>
+                       <div class="flex flex-col items-start min-w-0">
+                           <span class="text-xs font-bold opacity-90">Email</span>
+                           <span class="text-[9px] opacity-50 truncate w-full font-mono">astercompanybusiness@gmail.com</span>
+                       </div>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-3.5 h-3.5 opacity-30 group-hover:opacity-100 transition shrink-0"></i>
+                </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="weatherModal" class="fullscreen-panel z-[2050]">
+          <div class="glass-panel modal-inner p-6 w-full max-w-lg relative overflow-hidden flex flex-col mt-0" style="background: var(--ctx-bg); border: 1px solid var(--ctx-border); color: var(--ctx-text); max-height: calc(100vh - 7rem);">
+              <button onclick="document.getElementById('weatherModal').classList.remove('active')" class="floating-close-capsule">
+                  <i data-lucide="x" class="w-5 h-5"></i>
+              </button>
+              <div class="flex items-center justify-between mb-6 pr-8">
+                  <div>
+                      <h2 class="text-3xl font-bold flex items-center gap-3"><i data-lucide="cloud-sun" class="w-8 h-8 opacity-80"></i> <span data-i18n="weather_title">Погода</span></h2>
+                      <div class="temp-toggle mt-2">
+                          <button id="btn-temp-c" onclick="window.setTempUnit('C')">C°</button>
+                          <button id="btn-temp-f" onclick="window.setTempUnit('F')" class="active">F°</button>
+                      </div>
+                  </div>
+                  <div class="text-4xl font-bold font-mono" id="wm-current-temp">--°</div>
+              </div>
+              <div class="mb-4 shrink-0">
+                  <h3 class="text-[0.7rem] uppercase tracking-widest opacity-60 font-bold mb-3" data-i18n="weather_hourly">Прогноз на 24 часа</h3>
+                  <div class="flex gap-3 overflow-x-auto no-scrollbar pb-2" id="wm-hourly-container"></div>
+              </div>
+              <div class="flex-1 overflow-y-auto custom-scrollbar pr-2 flex flex-col gap-1" id="wm-daily-container">
+                  <h3 class="text-[0.7rem] uppercase tracking-widest opacity-60 font-bold mb-3 mt-2 shrink-0" data-i18n="weather_daily">Прогноз на 7 дней</h3>
+              </div>
+          </div>
+      </div>
+      
+      <div id="clockModal" class="fullscreen-panel z-[2050]">
+          <div class="glass-panel modal-inner p-8 w-full max-w-md relative flex flex-col items-center justify-center mt-0" style="background: var(--ctx-bg); border: 1px solid var(--ctx-border); color: var(--ctx-text); min-height: 400px;">
+              <button onclick="document.getElementById('clockModal').classList.remove('active')" class="floating-close-capsule">
+                  <i data-lucide="x" class="w-5 h-5"></i>
+              </button>
+              <div class="flex gap-4 mb-8">
+                  <button class="px-4 py-2 rounded-full font-bold text-xs uppercase tracking-widest border border-current transition-all" id="btn-clock-digital" onclick="window.setClockMode('digital')" data-i18n="clock_digital">Digital</button>
+                  <button class="px-4 py-2 rounded-full font-bold text-xs uppercase tracking-widest border border-current transition-all" id="btn-clock-analog" onclick="window.setClockMode('analog')" data-i18n="clock_analog">Analog</button>
+              </div>
+              <div id="clock-view-digital" class="text-6xl md:text-7xl font-bold font-mono tracking-tighter" style="font-family: var(--font-heading);">
+                  00:00:00
+              </div>
+              <div id="clock-view-analog" class="hidden relative w-64 h-64 rounded-full border-4 flex items-center justify-center" style="border-color: var(--glass-border); background: var(--setting-btn-bg);">
+                  <div class="absolute w-2 h-2 rounded-full z-20" style="background: var(--text-main);"></div>
+                  <div id="analog-hour" class="absolute w-1.5 h-16 rounded-full origin-bottom z-10" style="background: var(--text-main); bottom: 50%; transform-origin: bottom center;"></div>
+                  <div id="analog-minute" class="absolute w-1 h-24 rounded-full origin-bottom z-10" style="background: var(--text-main); opacity: 0.8; bottom: 50%; transform-origin: bottom center;"></div>
+                  <div id="analog-second" class="absolute w-0.5 h-28 rounded-full origin-bottom z-10" style="background: #ef4444; bottom: 50%; transform-origin: bottom center;"></div>
+              </div>
+          </div>
+      </div>
+
+      <div id="calendarModal" class="fullscreen-panel z-[2050]">
+          <div class="glass-panel modal-inner p-6 w-full max-w-md relative flex flex-col mt-0" style="background: var(--ctx-bg); border: 1px solid var(--ctx-border); color: var(--ctx-text);">
+              <button onclick="document.getElementById('calendarModal').classList.remove('active')" class="floating-close-capsule">
+                  <i data-lucide="x" class="w-5 h-5"></i>
+              </button>
+              <div class="flex justify-between items-center mb-6 pr-8">
+                  <h2 class="text-2xl font-bold" id="cal-month-year" style="font-family: var(--font-heading);">Month Year</h2>
+                  <div class="flex gap-2">
+                      <button class="p-2 rounded-full hover:bg-white/10 transition border border-transparent hover:border-current" onclick="window.changeMonth(-1)"><i data-lucide="chevron-left"></i></button>
+                      <button class="p-2 rounded-full hover:bg-white/10 transition border border-transparent hover:border-current" onclick="window.changeMonth(1)"><i data-lucide="chevron-right"></i></button>
+                  </div>
+              </div>
+              <div class="grid grid-cols-7 gap-2 text-center text-xs font-bold opacity-50 mb-2 uppercase tracking-widest" id="cal-weekdays"></div>
+              <div class="grid grid-cols-7 gap-2 text-center" id="cal-days"></div>
+          </div>
+      </div>
+
+      <div id="telegramModal" class="fullscreen-panel">
+        <div class="glass-panel modal-inner p-8 max-w-sm w-full relative text-center flex flex-col items-center mt-0" style="background: var(--ctx-bg); border-color: var(--ctx-border); color: var(--ctx-text); max-height: calc(100vh - 7rem);">
+            <button onclick="document.getElementById('telegramModal').classList.remove('active')" class="floating-close-capsule">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div class="w-16 h-16 rounded-full flex items-center justify-center border mb-4 mt-2" style="background: var(--setting-btn-bg); border-color: var(--glass-border);"><i data-lucide="send" class="w-8 h-8"></i></div>
+            <h2 class="text-xl font-bold mb-2" data-i18n="tg_channel">Telegram-канал</h2>
+            <p class="text-sm opacity-60 mb-6" data-i18n="tg_join">Присоединяйтесь к нашему сообществу.</p>
+            <div class="bg-white p-3 rounded-xl mb-6 shadow-xl"><img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://t.me/linkerRu" alt="QR Code" class="w-32 h-32 mix-blend-multiply" /></div>
+            <div class="p-4 rounded-xl border mb-4 w-full select-all" style="background: var(--setting-btn-bg); border-color: var(--glass-border);"><p class="text-blue-500 font-bold text-sm">https://t.me/linkerRu</p><p class="text-xs opacity-50 mt-1">@linkerRu</p></div>
+            <button onclick="window.open('https://t.me/linkerRu', '_blank')" class="btn3d btn-white w-full" data-i18n="btn_open_link">Открыть ссылку</button>
+        </div>
+      </div>
+
+      <div id="notificationModal" class="fullscreen-panel">
+        <div class="glass-panel modal-inner p-0 w-full max-w-sm relative overflow-hidden text-center mt-0" style="background: var(--ctx-bg); border: 1px solid var(--ctx-border); color: var(--ctx-text); max-height: calc(100vh - 7rem);">
+          <button onclick="document.getElementById('notificationModal').classList.remove('active')" class="floating-close-capsule">
+              <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+          <div class="p-6 flex flex-col items-center gap-4 mt-4">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center border" style="background: var(--setting-btn-bg); border-color: var(--glass-border);" id="notif-icon-box"><i data-lucide="info" class="w-6 h-6" id="notif-icon"></i></div>
+            <div><h3 class="text-lg font-bold mb-2" id="notif-title">System Message</h3><p class="text-sm opacity-60 leading-relaxed" id="notif-body">...</p></div>
+            <button onclick="document.getElementById('notificationModal').classList.remove('active')" class="btn3d btn-white w-full mt-2" data-i18n="btn_ok">ОК</button>
+          </div>
+        </div>
+      </div>
+      
+      <div id="authPanel" class="fullscreen-panel">
+        <div class="modal-inner p-6 w-full max-w-[24rem] relative flex flex-col gap-4 mt-0" style="background: #000; border: 1px solid #333; border-radius: 2rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9); max-height: calc(100vh - 7rem);">
+          <div class="auth-frame" style="background: #111; border-color: #333;">
+             <div class="w-16 h-16 rounded-full flex items-center justify-center mb-3 shadow-[0_0_15px_rgba(255,255,255,0.3)]" style="background: var(--btn-bg); color: var(--btn-text);"><i data-lucide="user" class="w-8 h-8"></i></div>
+             <h2 class="text-xl font-bold text-white tracking-tight" data-i18n="auth_login_title">Гостевой доступ</h2>
+             <p class="text-xs text-white/40 mt-1" data-i18n="auth_login_sub">Локальный вход</p>
+          </div>
+          <div id="auth-main-content" class="flex flex-col gap-3">
+              <div class="auth-frame flex-row gap-2 !p-2" style="background: #111; border-color: #333;">
+                 <button onclick="window.setLanguage('en')" class="flex-1 text-xs font-bold py-2 rounded-xl transition-all hover:bg-white hover:text-black border border-transparent hover:border-white/20 text-white/60" id="reg-lang-en">EN</button>
+                 <div class="w-px h-4 bg-white/10"></div>
+                 <button onclick="window.setLanguage('ru')" class="flex-1 text-xs font-bold py-2 rounded-xl transition-all hover:bg-white hover:text-black border border-transparent hover:border-white/20 text-white/60" id="reg-lang-ru">RU</button>
+              </div>
+              <div class="auth-frame group focus-within:border-white/50 focus-within:bg-white/5" style="background: #111; border-color: #333;">
+                  <div class="auth-frame-label" data-i18n="placeholder_displayname">Личность</div>
+                  <input type="text" id="auth-name" data-i18n="placeholder_displayname" class="m3-input bg-transparent border-none text-center text-lg font-bold placeholder-white/20 focus:placeholder-transparent text-white border-b border-white/20" placeholder="Имя или никнейм" autocomplete="off" onkeydown="if(event.key==='Enter')window.handleAuth()" />
+              </div>
+              <div class="auth-frame !flex-row justify-between cursor-pointer hover:bg-white/5" onclick="window.togglePolicyAccept()" style="background: #111; border-color: #333;">
+                  <div class="flex items-center gap-3">
+                      <div class="w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all duration-300" id="policy-checkbox" style="border-color: #555;"><i data-lucide="check" class="w-3.5 h-3.5 text-black opacity-0 transition-opacity scale-50 duration-300" id="policy-check-icon"></i></div>
+                      <div class="flex flex-col items-start"><span class="text-xs font-bold text-white/90 select-none" data-i18n="accept_policy">Я принимаю условия</span><span class="text-[0.65rem] text-white/40 hover:text-white underline decoration-white/20 cursor-pointer" onclick="event.stopPropagation(); window.openPrivacyModal()" data-i18n="read_policy">Политика конфиденциальности</span></div>
+                  </div>
+              </div>
+              <button onclick="window.handleAuth()" class="w-full py-4 rounded-2xl font-bold text-sm tracking-widest uppercase hover:opacity-90 active:scale-95 transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)]" style="background: var(--btn-bg); color: var(--btn-text);" id="auth-submit-btn" data-i18n="btn_login">Продолжить</button>
+          </div>
+          <p id="auth-error" class="text-red-500 text-[10px] font-mono text-center absolute bottom-2 left-0 right-0 opacity-0 transition-opacity"></p>
+        </div>
+      </div>
+       
+      <div id="privacyPolicyModal" class="fullscreen-panel">
+        <div class="glass-panel modal-inner p-0 w-full max-w-2xl relative overflow-hidden mt-0" style="background: var(--ctx-bg); border: 1px solid var(--ctx-border); color: var(--ctx-text); max-height: calc(100vh - 7rem); display: flex; flex-direction: column;">
+          <button onclick="document.getElementById('privacyPolicyModal').classList.remove('active')" class="floating-close-capsule">
+              <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+          <div class="p-6 border-b flex justify-between items-center pr-12" style="background: var(--setting-btn-bg); border-color: var(--glass-border);">
+            <h2 class="text-xl font-bold flex items-center gap-2"><i data-lucide="file-text" class="w-5 h-5"></i> <span data-i18n="policy_title">Политика конфиденциальности</span></h2>
+          </div>
+          <div class="p-8 overflow-y-auto text-sm opacity-80 leading-relaxed space-y-4" id="privacy-content"><h3 class="font-bold text-lg" data-i18n="loading">Загрузка...</h3></div>
+        </div>
+      </div>
+
+      <div id="changelogPanel" class="fullscreen-panel">
+        <div class="glass-panel modal-inner p-8 max-w-lg w-full relative border mt-0" style="background: var(--ctx-bg); border-color: var(--ctx-border); color: var(--ctx-text); max-height: calc(100vh - 7rem);">
+          <button onclick="document.getElementById('changelogPanel').classList.remove('active')" class="floating-close-capsule">
+              <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+          <h2 class="text-2xl font-bold mb-4 pr-8" data-i18n="changelog_title">Журнал изменений</h2>
+          <div id="changelog-content" class="text-sm opacity-80 leading-relaxed whitespace-pre-wrap h-64 overflow-y-auto custom-scrollbar" data-i18n="loading">Загрузка...</div>
+        </div>
+      </div>
+
+      <script>
+        const SPACE_PROXY_URL = 'https://visit.sistemasplenario.com.ar/';
+        const AGNO_AI_URL = 'https://agno-agent-ui.vercel.app/';
+
+        const lisyanSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 370 340"><g><path d="M22.066 131.808h95.32L76.42 5.735c-2.107-6.487-11.284-6.487-13.39 0L22.065 131.808z" fill="currentColor" /><path d="M348.73 131.808h-95.32L294.376 5.735c2.108-6.487 11.285-6.487 13.392 0l40.963 126.073z" fill="currentColor" /><path d="M185.398 341.13l68.013-209.322H117.39L185.4 341.13z" fill="currentColor" /><path d="M185.398 341.13l-68.013-209.322h-95.32L185.4 341.128z" fill="currentColor" opacity="0.8" /><path d="M185.398 341.13l68.013-209.322h95.32L185.4 341.128z" fill="currentColor" opacity="0.8" /><path d="M22.066 131.808l-20.67 63.61c-1.884 5.803.18 12.16 5.117 15.744L185.398 341.13 22.066 131.807z" fill="currentColor" opacity="0.5" /><path d="M348.73 131.808l20.67 63.61c1.884 5.803-.18 12.16-5.117 15.744L185.398 341.13 348.73 131.807z" fill="currentColor" opacity="0.5" /></g></svg>`;
+
+        const defaultProxies = [
+            { id: 'space-hub', title: 'Space Proxy Hub', icon: 'rocket', descKey: 'app_desc_space_hub', status: true, isHub: true, servers: [ { name: 'Server 1', url: 'https://us-east-production-36887.jpleventos.cl/' }, { name: 'Server 2', url: 'https://us-east-production-25671.rkimport.com/' }, { name: 'Server 3', url: 'https://help.brynlewis.com/' } ] },
+            { id: 'agnogpt', title: 'AgnoGPT', url: AGNO_AI_URL, icon: 'bot', descKey: 'app_desc_agnogpt', status: true, btnKey: 'app_btn_launch' },
+            { id: 'lisyan', title: 'ManasAi', url: 'https://lisyan.netlify.app/', icon: lisyanSVG, descKey: 'app_desc_lisyan', status: true, btnKey: 'app_btn_launch' },
+            { id: 'fnae', title: "five nights with Manas", url: "https://fnae.n1yshi.dev/", icon: "https://static.independent.co.uk/2026/02/20/16/40/FILE-PHOTO-Jeffrey-Epstein-appears-in-a-photo-taken-for-the-NY-Division-of-Criminal-Justice-Services.jpeg", descKey: "app_desc_fnae", status: true, btnKey: "app_btn_launch", openDirect: true }
+        ];        
+        
+        const changelogEN = `LinkerRu XII (Local) v29/stable (Maintenance and Visual Upgrade)\n- Restored Multi-Accent Design Mixer pop-up utilizing the custom donut-customizer trigger.\n- Mixed color configurations loaded directly into system styling configurations.\n- Removed lisyan_shells as requested to simplify active components.\n- Relocated five nights with Manas to the 4th position of the dashboard.\n- Interactive canvas particle background added with full light/dark responsiveness.\n- Rebranded theme engine to "White/Dark" settings module.\n- Redesigned "Something is brewing" block with dynamic rotational clock physics.`;
+        const changelogRU = `LinkerRu XII (Local) в29/стабильная (Обновление и оптимизация)\n- Возвращен кастомизатор смешанных палитр (Donut Mixer) с многоцветными темами.\n- Создание собственных цветовых сочетаний через всплывающий интерактивный миксер.\n- Полностью удален модуль lisyan_shells для упрощения списка приложений.\n- Игра five nights with Manas перемещена на почетное 4-е место.\n- Возвращен красивый интерактивный холст с летающими частицами (Particle Canvas).\n- Переименована вкладка Темизация на Светлая/Темная (White/Dark).\n- Изменен блок Brewing Pad на "Something is brewing" с плавно вращающейся шестеренкой часов!`;
+        
+        const policyEN = `LinkerRu XII (Local) — Privacy Policy\n\n1. Local Storage\nLinkerRu XII (Local Version) operates entirely within your browser. \n- Your Name, Theme Selections, and Custom Palettes are stored in "LocalStorage" on your device.\n- No data is sent to our servers for authentication. Zero Firebase connections.\n\n2. Third-Party Services\n- Proxies route your traffic through third-party servers. We do not control these servers.\n- ManasAi connects via Netlify app engine securely.`;
+        const policyRU = `LinkerRu XII (Local) — Политика Конфиденциальности\n\n1. Локальное хранилище\nLinkerRu XII (Локальная версия) работает полностью в вашем браузере.\n- Ваше Имя, Выбранные Темы и Кастомные Палитры хранятся в "LocalStorage" на вашем устройстве.\n- Данные никуда не отправляются. Убраны абсолютно все подключения к Firebase.\n\n2. Сторонние сервисы\n- Прокси маршрутизируют ваш трафик через сторонние серверы.\n- ManasAi загружается как внешнее приложение через Netlify.`;
+
+        const m3Themes = [
+            { id: 'monochrome', name: 'Монохром', c1: '#5e5e5e', c2: '#e2e2e2',
+              light: {
+                bgBase: 'linear-gradient(135deg, #f5f5f5 0%, #e2e2e2 100%)', b1Base: '#cccccc', b2Base: '#e2e2e2', b3Base: '#b3b3b3', btnBgBase: '#5e5e5e', btnTextBase: '#ffffff',
+                background: '#fdfcfc', surface: '#fdfcfc', surfaceContainer: '#f2f2f2', surfaceContainerHigh: '#ececec', surfaceContainerHighest: '#e6e6e6',
+                onSurface: '#1a1c1e', onSurfaceVariant: '#44474e', primary: '#000000', onPrimary: '#ffffff', primaryContainer: '#d4d4d4', onPrimaryContainer: '#000000', outlineVariant: '#c4c7c5'
+              },
+              dark: {
+                bgBase: 'linear-gradient(180deg, #1b1b1b 0%, #0a0a0a 100%)', b1Base: '#5e5e5e', b2Base: '#404040', b3Base: '#7a7a7a', btnBgBase: '#e2e2e2', btnTextBase: '#1b1b1b',
+                background: '#1a1c1e', surface: '#1a1c1e', surfaceContainer: '#1e2022', surfaceContainerHigh: '#282a2d', surfaceContainerHighest: '#333538',
+                onSurface: '#e2e2e6', onSurfaceVariant: '#c4c7c5', primary: '#ffffff', onPrimary: '#000000', primaryContainer: '#474747', onPrimaryContainer: '#ffffff', outlineVariant: '#44474e'
+              }
+            },
+            { id: 'classic', name: 'Классика', c1: '#6a5f4b', c2: '#d7c5ab',
+              light: {
+                bgBase: 'linear-gradient(135deg, #f2eee5 0%, #e6dfd1 100%)', b1Base: '#dcd4c4', b2Base: '#e8e2d4', b3Base: '#d8d0c0', btnBgBase: '#000000', btnTextBase: '#ffffff',
+                background: '#fffbff', surface: '#fffbff', surfaceContainer: '#f4efe6', surfaceContainerHigh: '#eee8df', surfaceContainerHighest: '#e8e2d9',
+                onSurface: '#1e1b16', onSurfaceVariant: '#4f4539', primary: '#715a2e', onPrimary: '#ffffff', primaryContainer: '#ffdeab', onPrimaryContainer: '#271900', outlineVariant: '#d3c4b4'
+              },
+              dark: {
+                bgBase: 'linear-gradient(180deg, #000 0%, #050505 100%)', b1Base: '#2a2a2a', b2Base: '#333333', b3Base: '#1a1a1a', btnBgBase: '#ffffff', btnTextBase: '#000000',
+                background: '#1e1b16', surface: '#1e1b16', surfaceContainer: '#221f1a', surfaceContainerHigh: '#2d2924', surfaceContainerHighest: '#38342e',
+                onSurface: '#e8e2d9', onSurfaceVariant: '#d3c4b4', primary: '#e1c28c', onPrimary: '#3e2e04', primaryContainer: '#574319', onPrimaryContainer: '#ffdeab', outlineVariant: '#4f4539'
+              }
+            },
+            { id: 'cyberpunk', name: 'Киберпанк (Mixed)', c1: '#bf5af2', c2: '#0a84ff', c3: '#ff375f', c4: '#ffd60a',
+              light: {
+                bgBase: 'linear-gradient(135deg, #fceeff 0%, #e0f2fe 50%, #fef3c7 100%)',
+                background: '#faf5ff', surface: '#faf5ff', surfaceContainer: '#f3e8ff', surfaceContainerHigh: '#edd9ff', surfaceContainerHighest: '#e9d5ff',
+                onSurface: '#1e003b', onSurfaceVariant: '#581c87', primary: '#bf5af2', onPrimary: '#ffffff', primaryContainer: '#ff375f', onPrimaryContainer: '#ffffff', outlineVariant: '#c084fc'
+              },
+              dark: {
+                bgBase: 'linear-gradient(180deg, #11001c 0%, #03001e 50%, #120015 100%)',
+                background: '#0a0014', surface: '#0a0014', surfaceContainer: '#120024', surfaceContainerHigh: '#1b0033', surfaceContainerHighest: '#240046',
+                onSurface: '#f5f3ff', onSurfaceVariant: '#d8b4fe', primary: '#0a84ff', onPrimary: '#ffffff', primaryContainer: '#ff375f', onPrimaryContainer: '#ffffff', outlineVariant: '#6b21a8'
+              }
+            },
+            { id: 'synthwave', name: 'Synthwave (Mixed)', c1: '#ff007f', c2: '#00f0ff', c3: '#ff7b00', c4: '#7b2cbf',
+              light: {
+                bgBase: 'linear-gradient(135deg, #fff0f5 0%, #e0ffff 50%, #fff3e0 100%)',
+                background: '#fff5f7', surface: '#fff5f7', surfaceContainer: '#ffe4e6', surfaceContainerHigh: '#fecdd3', surfaceContainerHighest: '#fda4af',
+                onSurface: '#4c0519', onSurfaceVariant: '#881337', primary: '#ff007f', onPrimary: '#ffffff', primaryContainer: '#00f0ff', onPrimaryContainer: '#000000', outlineVariant: '#fda4af'
+              },
+              dark: {
+                bgBase: 'linear-gradient(180deg, #0d011c 0%, #1e0236 50%, #03010b 100%)',
+                background: '#090112', surface: '#090112', surfaceContainer: '#140129', surfaceContainerHigh: '#200140', surfaceContainerHighest: '#2d0257',
+                onSurface: '#fdf4ff', onSurfaceVariant: '#f0abfc', primary: '#ff007f', onPrimary: '#ffffff', primaryContainer: '#00f0ff', onPrimaryContainer: '#000000', outlineVariant: '#701a75'
+              }
+            },
+            { id: 'aurora', name: 'Аврора (Mixed)', c1: '#00f5d4', c2: '#7b2cbf', c3: '#00bbf9', c4: '#9ef01a',
+              light: {
+                bgBase: 'linear-gradient(135deg, #e6fffa 0%, #f3e8ff 50%, #e0f2fe 100%)',
+                background: '#f0fdfa', surface: '#f0fdfa', surfaceContainer: '#ccfbf1', surfaceContainerHigh: '#99f6e4', surfaceContainerHighest: '#5eead4',
+                onSurface: '#042f2e', onSurfaceVariant: '#0f766e', primary: '#7b2cbf', onPrimary: '#ffffff', primaryContainer: '#00bbf9', onPrimaryContainer: '#000000', outlineVariant: '#2dd4bf'
+              },
+              dark: {
+                bgBase: 'linear-gradient(180deg, #011210 0%, #0a0118 50%, #010a14 100%)',
+                background: '#010c0b', surface: '#010c0b', surfaceContainer: '#021e1a', surfaceContainerHigh: '#032f29', surfaceContainerHighest: '#043f37',
+                onSurface: '#f0fdfa', onSurfaceVariant: '#99f6e4', primary: '#00f5d4', onPrimary: '#010a14', primaryContainer: '#7b2cbf', onPrimaryContainer: '#ffffff', outlineVariant: '#0f766e'
+              }
+            },
+            { id: 'ocean', name: 'Океан', c1: '#0061a4', c2: '#d1e4ff',
+              light: {
+                bgBase: 'linear-gradient(135deg, #eef5fd 0%, #d1e4ff 100%)', b1Base: '#a6c8ff', b2Base: '#d1e4ff', b3Base: '#7aaeff', btnBgBase: '#0061a4', btnTextBase: '#ffffff',
+                background: '#fdfbff', surface: '#fdfbff', surfaceContainer: '#f0f4f9', surfaceContainerHigh: '#e9eef4', surfaceContainerHighest: '#e3e8ef',
+                onSurface: '#1a1c1e', onSurfaceVariant: '#43474e', primary: '#0061a4', onPrimary: '#ffffff', primaryContainer: '#d1e4ff', onPrimaryContainer: '#001d36', outlineVariant: '#c3c7cf'
+              },
+              dark: {
+                bgBase: 'linear-gradient(180deg, #001d36 0%, #000c1a 100%)', b1Base: '#004a80', b2Base: '#00335c', b3Base: '#0061a4', btnBgBase: '#a6c8ff', btnTextBase: '#001d36',
+                background: '#1a1c1e', surface: '#1a1c1e', surfaceContainer: '#1e2022', surfaceContainerHigh: '#282a2d', surfaceContainerHighest: '#333538',
+                onSurface: '#e2e2e6', onSurfaceVariant: '#c3c7cf', primary: '#9ecaff', onPrimary: '#003258', primaryContainer: '#00497d', onPrimaryContainer: '#d1e4ff', outlineVariant: '#43474e'
+              }
+            },
+            { id: 'forest', name: 'Лес', c1: '#1d6b2f', c2: '#a4f6a8',
+              light: {
+                bgBase: 'linear-gradient(135deg, #f2f7ef 0%, #d5e8ce 100%)', b1Base: '#a4f6a8', b2Base: '#c0f7c2', b3Base: '#8be590', btnBgBase: '#1d6b2f', btnTextBase: '#ffffff',
+                background: '#fcfdf6', surface: '#fcfdf6', surfaceContainer: '#eff5ec', surfaceContainerHigh: '#e9efe6', surfaceContainerHighest: '#e3e9e0',
+                onSurface: '#1a1c18', onSurfaceVariant: '#424940', primary: '#1d6b2f', onPrimary: '#ffffff', primaryContainer: '#a4f6a8', onPrimaryContainer: '#002107', outlineVariant: '#c2c8bd'
+              },
+              dark: {
+                bgBase: 'linear-gradient(180deg, #111f0f 0%, #080f07 100%)', b1Base: '#1d6b2f', b2Base: '#134d20', b3Base: '#268a3e', btnBgBase: '#a4f6a8', btnTextBase: '#002107',
+                background: '#1a1c18', surface: '#1a1c18', surfaceContainer: '#1e201c', surfaceContainerHigh: '#282b26', surfaceContainerHighest: '#333530',
+                onSurface: '#e3e3dc', onSurfaceVariant: '#c2c8bd', primary: '#8ad98e', onPrimary: '#003912', primaryContainer: '#00531e', onPrimaryContainer: '#a4f6a8', outlineVariant: '#424940'
+              }
+            },
+            { id: 'lavender', name: 'Лаванда', c1: '#6750a4', c2: '#eaddff',
+              light: {
+                bgBase: 'linear-gradient(135deg, #f8f5fb 0%, #eaddff 100%)', b1Base: '#d0bcff', b2Base: '#eaddff', b3Base: '#b593ff', btnBgBase: '#6750a4', btnTextBase: '#ffffff',
+                background: '#fffbff', surface: '#fffbff', surfaceContainer: '#f7f2fc', surfaceContainerHigh: '#f1ebf7', surfaceContainerHighest: '#ebe5f1',
+                onSurface: '#1c1b1f', onSurfaceVariant: '#49454f', primary: '#6750a4', onPrimary: '#ffffff', primaryContainer: '#eaddff', onPrimaryContainer: '#21005d', outlineVariant: '#cac4d0'
+              },
+              dark: {
+                bgBase: 'linear-gradient(180deg, #21005d 0%, #10002e 100%)', b1Base: '#6750a4', b2Base: '#4f378a', b3Base: '#7e66ba', btnBgBase: '#d0bcff', btnTextBase: '#21005d',
+                background: '#1c1b1f', surface: '#1c1b1f', surfaceContainer: '#201f23', surfaceContainerHigh: '#2b292f', surfaceContainerHighest: '#36343a',
+                onSurface: '#e6e1e5', onSurfaceVariant: '#cac4d0', primary: '#d0bcff', onPrimary: '#381e72', primaryContainer: '#4f378b', onPrimaryContainer: '#eaddff', outlineVariant: '#49454f'
+              }
+            },
+            { id: 'sunset', name: 'Закат', c1: '#984061', c2: '#ffd9e2',
+              light: {
+                bgBase: 'linear-gradient(135deg, #fdf4f6 0%, #ffd9e2 100%)', b1Base: '#ffb3c5', b2Base: '#ffd9e2', b3Base: '#ff8ca8', btnBgBase: '#984061', btnTextBase: '#ffffff',
+                background: '#fffbff', surface: '#fffbff', surfaceContainer: '#fcedef', surfaceContainerHigh: '#f6e7ea', surfaceContainerHighest: '#f0e1e5',
+                onSurface: '#201a1b', onSurfaceVariant: '#534347', primary: '#984061', onPrimary: '#ffffff', primaryContainer: '#ffd9e2', onPrimaryContainer: '#3e001d', outlineVariant: '#d8c2b1'
+              },
+              dark: {
+                bgBase: 'linear-gradient(180deg, #3e001d 0%, #1f000e 100%)', b1Base: '#984061', b2Base: '#7a2d48', b3Base: '#b55375', btnBgBase: '#ffb3c5', btnTextBase: '#3e001d',
+                background: '#201a1b', surface: '#201a1b', surfaceContainer: '#241e1f', surfaceContainerHigh: '#2f282a', surfaceContainerHighest: '#3a332e',
+                onSurface: '#ece0d8', onSurfaceVariant: '#d8c2b1', primary: '#ffb0c8', onPrimary: '#5e1133', primaryContainer: '#7b2949', onPrimaryContainer: '#ffd9e2', outlineVariant: '#534347'
+              }
+            }
+        ];
+
+        const state = {
+          user: null, 
+          proxies: (JSON.parse(localStorage.getItem('local_proxies')) || defaultProxies).filter(p => p.id !== 'lisyan_shells'),
+          news: 'В текущем обновлении наша команда провела масштабную очистку кода и исправление ошибок системы.',
+          policyText: policyRU, changelogText: changelogRU,
+          panicUrl: localStorage.getItem('panicUrl') || 'https://google.com',
+          panicKey: localStorage.getItem('panicKey') || 'Escape',
+          assistantKey: localStorage.getItem('assistantKey') || 'Ctrl+E',
+          registerPolicyAccepted: !1,
+          cyclamenM3: localStorage.getItem('cyclamenM3') === 'true',
+          lightMode: localStorage.getItem('lightMode') === 'true',
+          expressiveM3: true,
+          lowMode: true,
+          hideProxyTitle: false,
+          experimentalAnimations: true,
+          themeTint: localStorage.getItem('themeTint') || 'monochrome',
+          lang: localStorage.getItem('linkerLang') || (navigator.language.startsWith('ru') ? 'ru' : 'en'),
+          eventColor: localStorage.getItem('eventColor') || 'rgba(255, 255, 255, 0.9)',
+          betaUnlocked: true,
+          versionClickCount: 0,
+          fontHeading: localStorage.getItem('fontHeading') || 'Plus Jakarta Sans, sans-serif',
+          fontBody: localStorage.getItem('fontBody') || 'Plus Jakarta Sans, sans-serif',
+          isEditMode: false,
+          tempUnit: localStorage.getItem('tempUnit') || 'F'
+        };
+
+        // Enforce five nights with Manas position in proxies list (Index 3 / 4th slot)
+        const fnaeIndex = state.proxies.findIndex(p => p.id === 'fnae');
+        if (fnaeIndex > -1) {
+            const fnaeObj = state.proxies.splice(fnaeIndex, 1)[0];
+            state.proxies.splice(3, 0, fnaeObj);
+        } else {
+            state.proxies.splice(3, 0, { id: 'fnae', title: "five nights with Manas", url: "https://fnae.n1yshi.dev/", icon: "https://static.independent.co.uk/2026/02/20/16/40/FILE-PHOTO-Jeffrey-Epstein-appears-in-a-photo-taken-for-the-NY-Division-of-Criminal-Justice-Services.jpeg", descKey: "app_desc_fnae", status: true, btnKey: "app_btn_launch", openDirect: true });
+        }
+        localStorage.setItem('local_proxies', JSON.stringify(state.proxies));
+
+        const I18N = {
+          en: { system_text: 'v29/stable / local', brewing_title: 'Something is brewing', brewing_desc: 'App locked', app_btn_locked: 'Locked', quick_toggles: 'Quick Toggles', launch: 'Launch', profile: 'Profile', news: 'News', support: 'Support', settings: 'Settings', auth_login_title: 'Guest Access', auth_login_sub: 'Local Login', btn_login: 'Continue', accept_policy: 'I accept terms', read_policy: 'Privacy Policy', proxy_nano_split: 'Split View', links_title: 'Links', copy_instruction: 'Community Links', placeholder_displayname: 'Name or Nickname', btn_ok: 'OK', policy_title: 'Privacy Policy', changelog_title: 'Changelog', loading: 'Loading...', settings_system: 'System', settings_panic_url: 'Panic URL Redirection', settings_panic_key: 'Panic Hotkey', settings_assistant: 'Assistant Hotkey', tg_channel: 'Telegram Channel', tg_join: 'Join our community.', btn_open_link: 'Open Link', dev_contact: 'Developer', scan_dev: 'Scan for direct contact or use buttons below.', news_update: 'In the current update, our team has performed massive code cleaning and system fixes.', ctx_edit: "Edit Layout", ctx_refresh: "Refresh", beta_unlocked_title: "Beta Testing", beta_unlocked_body: "You have entered the beta testing program! Experimental features unlocked.", btn_close: "Close", weather_title: "Weather", weather_hourly: "24-Hour Forecast", weather_daily: "7-Day Forecast",
+                app_locked: "App locked", select_server: "Select Server", select_node: "Select Node", btn_back: "Back", app_default_desc: "App", app_open: "Open",
+                set_appearance: "Appearance", set_lang: "Language", set_theme_engine: "White/Dark", set_light_mode: "Light Mode", set_light_mode_desc: "Brightens the overall interface", set_pitch_black: "Pitch Black", set_pitch_black_desc: "Pure black panels with soft white edges", set_m3_palette: "Material 3 Palettes", set_m3_desc: "Select a core color scheme for the system.", set_typography: "Typography", set_shortcuts: "Shortcuts & URL", set_logout: "Logout Session", local_account: "Local Account", quick_settings: "Quick Settings", more_settings: "More Settings...", clock_digital: "Digital", clock_analog: "Analog", app_loading: "is loading...",
+                btn_destroy_session: "Destroy Session", destroy_warning: "This will reset all settings and delete all cache packages.",
+                app_desc_space_hub: "Multi-Server Access", app_desc_agnogpt: "AI Assistant", app_desc_lisyan: "Advanced AI Assistant", app_desc_fnae: "five nights with Manas game", app_desc_aihub: "Coming Soon", app_desc_asteros_sync: "Cloud Data Storage", app_btn_launch: "Launch",                app_details_about: "About this app", app_details_desc_placeholder: "[Detailed description will be added here later...]",
+                create_theme_title: "Design Your Palette", create_theme_desc: "Create a spectacular multi-colored mix", custom_donut_btn: "Mixer" },
+          ru: { system_text: 'в29/стабильная / локальная', brewing_title: 'Something is brewing', brewing_desc: 'Приложение заблокировано', app_btn_locked: 'Заблокировано', quick_toggles: 'Быстрые настройки', launch: 'Запустить', profile: 'Профиль', news: 'Новости', support: 'Поддержка', settings: 'Настройки', auth_login_title: 'Гостевой доступ', auth_login_sub: 'Локальный вход', btn_login: 'Продолжить', accept_policy: 'Я принимаю условия', read_policy: 'Политика конфиденциальности', proxy_nano_split: 'Разделение экрана', links_title: 'Ссылки', copy_instruction: 'Ссылки сообщества', placeholder_displayname: 'Имя или никнейм', btn_ok: 'ОК', policy_title: 'Политика конфиденциальности', changelog_title: 'Журнал изменений', loading: 'Загрузка...', settings_system: 'Система', settings_panic_url: 'Ссылка экстренного выхода', settings_panic_key: 'Кнопка экстренного выхода', settings_assistant: 'Кнопка вызова ассистента', tg_channel: 'Telegram-канал', tg_join: 'Присоединяйтесь к нашему сообществу.', btn_open_link: 'Открыть ссылку', dev_contact: 'Разработчик', scan_dev: 'Отсканируйте или используйте кнопки ниже.', news_update: 'В текущем обновлении наша команда провела масштабную очистку кода и исправление ошибок системы.', ctx_edit: "Редактировать макет", ctx_refresh: "Обновить", beta_unlocked_title: "Бета-тестирование", beta_unlocked_body: "Вы попали в программу бета-тестирования! Открыты новые экспериментальные функции.", btn_close: "Закрыть", weather_title: "Погода", weather_hourly: "Прогноз на 24 часа", weather_daily: "Прогноз на 7 дней",
+                app_locked: "Приложение заблокировано", select_server: "Выбрать сервер", select_node: "Выберите узел", btn_back: "Назад", app_default_desc: "Приложение", app_open: "Открыть",
+                set_appearance: "Внешний вид", set_lang: "Язык", set_theme_engine: "Светлая/Темная", set_light_mode: "Светлая тема", set_light_mode_desc: "Делает интерфейс светлым", set_pitch_black: "Глубокий черный", set_pitch_black_desc: "Абсолютно черные панели", set_m3_palette: "Палитры Material 3", set_m3_desc: "Выберите базовый цвет системы.", set_typography: "Типографика", set_shortcuts: "Горячие клавиши и ссылки", set_logout: "Выйти из системы", local_account: "Локальный аккаунт", quick_settings: "Быстрые настройки", more_settings: "Все настройки...", clock_digital: "Цифровые", clock_analog: "Стрелочные", app_loading: "загружается...",
+                btn_destroy_session: "Уничтожить сессию", destroy_warning: "Это действие сбросит все настройки и удалит кэш-пакеты.",
+                app_desc_space_hub: "Мультисерверный доступ", app_desc_agnogpt: "ИИ-Ассистент", app_desc_lisyan: "Продвинутый ИИ-Ассистент", app_desc_fnae: "Игра five nights with Manas", app_desc_aihub: "Скоро появится", app_desc_asteros_sync: "Облачное хранилище", app_btn_launch: "Запустить",                app_details_about: "Об игре/приложении", app_details_desc_placeholder: "[Здесь будет подробное описание приложения, которое мы напишем позже...]",
+                create_theme_title: "Создатель темы", create_theme_desc: "Создайте уникальный многоцветный микс", custom_donut_btn: "Миксер" },
+        };
+
+        function initParticles() {
+            const canvas = document.getElementById('particle-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            const maxParticles = 55;
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.vx = (Math.random() - 0.5) * 0.4;
+                    this.vy = (Math.random() - 0.5) * 0.4;
+                    this.radius = Math.random() * 2 + 1;
+                }
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    const isLight = state.lightMode;
+                    ctx.fillStyle = isLight ? 'rgba(0, 0, 0, 0.12)' : 'rgba(255, 255, 255, 0.12)';
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < maxParticles; i++) {
+                particles.push(new Particle());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+
+                const isLight = state.lightMode;
+                ctx.strokeStyle = isLight ? 'rgba(0, 0, 0, 0.04)' : 'rgba(255, 255, 255, 0.04)';
+                ctx.lineWidth = 0.6;
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 130) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        window.setCustomTheme = (hex) => {
+            const customTheme = {
+                id: 'custom', name: 'Custom', c1: hex, c2: hex,
+                light: {
+                    bgBase: `linear-gradient(135deg, #f5f5f5 0%, #e2e2e2 100%)`,
+                    background: '#fdfcfc', surface: '#fdfcfc', surfaceContainer: '#f2f2f2', surfaceContainerHigh: '#ececec', surfaceContainerHighest: '#e6e6e6',
+                    onSurface: '#1a1c1e', onSurfaceVariant: '#44474e', primary: hex, onPrimary: '#ffffff', primaryContainer: hex, onPrimaryContainer: '#000000', outlineVariant: '#c4c7c5'
+                },
+                dark: {
+                    bgBase: `linear-gradient(180deg, #1b1b1b 0%, #0a0a0a 100%)`,
+                    background: '#1a1c1e', surface: '#1a1c1e', surfaceContainer: '#1e2022', surfaceContainerHigh: '#282a2d', surfaceContainerHighest: '#333538',
+                    onSurface: '#e2e2e6', onSurfaceVariant: '#c4c7c5', primary: hex, onPrimary: '#000000', primaryContainer: hex, onPrimaryContainer: '#ffffff', outlineVariant: '#44474e'
+                }
+            };
+            const existingIdx = m3Themes.findIndex(t => t.id === 'custom');
+            if(existingIdx >= 0) m3Themes[existingIdx] = customTheme;
+            else m3Themes.push(customTheme);
+            window.setThemeTint('custom');
+        };
+
+        function renderThemeSwatches() {
+            const container = document.getElementById('full-swatches-container');
+            if(!container) return;
+            container.innerHTML = '';
+            m3Themes.forEach(theme => {
+                if (theme.id === 'custom') return;
+                const btn = document.createElement('button');
+                const isActive = state.themeTint === theme.id;
+                btn.className = `m3-swatch ${isActive ? 'active' : ''}`;
+                btn.title = theme.name;
+                
+                // If it has 4 mixed colors, use a multi-color conic-gradient slice preview
+                if(theme.c3 && theme.c4) {
+                    btn.style.background = `conic-gradient(${theme.c1} 0deg 90deg, ${theme.c2} 90deg 180deg, ${theme.c3} 180deg 270deg, ${theme.c4} 270deg 360deg)`;
+                } else {
+                    btn.style.background = `linear-gradient(135deg, ${theme.c1} 50%, ${theme.c2} 50%)`;
+                }
+                
+                btn.onclick = () => window.setThemeTint(theme.id);
+                
+                if(isActive) {
+                    btn.innerHTML = `<div class="m3-swatch-inner"><div class="m3-swatch-check"></div></div>`;
+                }
+                container.appendChild(btn);
+            });
+        }
+
+        window.setLanguage = (l) => { state.lang = l; localStorage.setItem('linkerLang', l); applyLanguage(); };
+
+        function applyLanguage() {
+          const t = I18N[state.lang];
+          document.querySelectorAll('[data-i18n]').forEach((el) => {
+            const key = el.getAttribute('data-i18n');
+            if (t[key]) {
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    if (el.classList.contains('m3-input') && el.nextElementSibling?.classList.contains('m3-label')) el.nextElementSibling.innerText = t[key];
+                    else if (el.type !== 'checkbox' && el.type !== 'range') el.placeholder = t[key];
+                } else el.innerText = t[key];
+            }
+          });
+          state.news = t.news_update;
+          
+          const regRu = document.getElementById('reg-lang-ru'), regEn = document.getElementById('reg-lang-en');
+          const setRu = document.getElementById('set-lang-ru'), setEn = document.getElementById('set-lang-en');
+          const popRu = document.getElementById('pop-lang-ru'), popEn = document.getElementById('pop-lang-en');
+          
+          if (state.lang === 'en') {
+            if(regEn) { regEn.classList.add('bg-white', 'text-black'); regEn.classList.remove('text-white/60'); regRu.classList.remove('bg-white', 'text-black'); regRu.classList.add('text-white/60'); }
+            if(setEn) { setEn.style.background = 'var(--text-main)'; setEn.style.color = 'var(--ctx-bg)'; setEn.classList.add('opacity-100','shadow'); setEn.classList.remove('opacity-60'); setRu.style.background = 'transparent'; setRu.style.color = 'var(--text-main)'; setRu.classList.add('opacity-60'); setRu.classList.remove('opacity-100','shadow'); }
+            if(popEn) { popEn.classList.add('bg-black/10', 'dark:bg-white/10'); popRu.classList.remove('bg-black/10', 'dark:bg-white/10'); }
+            state.changelogText = changelogEN; state.policyText = policyEN;
+          } else {
+            if(regRu) { regRu.classList.add('bg-white', 'text-black'); regRu.classList.remove('text-white/60'); regEn.classList.remove('bg-white', 'text-black'); regEn.classList.add('text-white/60'); }
+            if(setRu) { setRu.style.background = 'var(--text-main)'; setRu.style.color = 'var(--ctx-bg)'; setRu.classList.add('opacity-100','shadow'); setRu.classList.remove('opacity-60'); setEn.style.background = 'transparent'; setEn.style.color = 'var(--text-main)'; setEn.classList.add('opacity-60'); setEn.classList.remove('opacity-100','shadow'); }
+            if(popRu) { popRu.classList.add('bg-black/10', 'dark:bg-white/10'); popEn.classList.remove('bg-black/10', 'dark:bg-white/10'); }
+            state.changelogText = changelogRU; state.policyText = policyRU;
+          }
+          if (document.getElementById('changelog-content')) document.getElementById('changelog-content').innerText = state.changelogText;
+          if (document.getElementById('privacy-content')) document.getElementById('privacy-content').innerText = state.policyText;
+          updateAuthText(); renderCards(); 
+          if(window.weatherData) renderWeatherModal(window.weatherData);
+          if(document.getElementById('calendarModal').classList.contains('active')) renderCalendar();
+        }
+
+        window.openCustomThemeCreator = () => {
+            document.getElementById('customThemeCreatorModal').classList.add('active');
+            
+            const p = document.getElementById('creator-primary');
+            const s = document.getElementById('creator-secondary');
+            const bg = document.getElementById('creator-bg');
+            const surf = document.getElementById('creator-surface');
+            
+            const updatePreview = () => {
+                const previewCard = document.getElementById('creator-preview-card');
+                if(previewCard) {
+                    previewCard.style.background = bg.value;
+                    previewCard.style.borderColor = s.value;
+                    
+                    const title = previewCard.querySelector('.text-sm');
+                    const desc = previewCard.querySelector('.text-[10px]');
+                    const btn = previewCard.querySelector('button');
+                    const dot = previewCard.querySelector('.w-3');
+                    
+                    if(title) title.style.color = p.value;
+                    if(desc) desc.style.color = s.value;
+                    if(btn) {
+                        btn.style.background = p.value;
+                        btn.style.color = bg.value;
+                    }
+                    if(dot) {
+                        dot.style.background = p.value;
+                        dot.style.boxShadow = `0 0 8px ${p.value}`;
+                    }
+                }
+            };
+
+            [p, s, bg, surf].forEach(input => input.addEventListener('input', updatePreview));
+            updatePreview();
+        };
+
+        window.saveCreatedTheme = () => {
+            const p = document.getElementById('creator-primary').value;
+            const s = document.getElementById('creator-secondary').value;
+            const bg = document.getElementById('creator-bg').value;
+            const surf = document.getElementById('creator-surface').value;
+
+            // Generate user mixed palette tokens
+            const userTheme = {
+                id: 'custom_created', name: 'My Mix', c1: p, c2: s, c3: bg, c4: surf,
+                light: {
+                    bgBase: bg,
+                    background: bg, surface: bg, surfaceContainer: surf, surfaceContainerHigh: surf, surfaceContainerHighest: surf,
+                    onSurface: p, onSurfaceVariant: s, primary: p, onPrimary: bg, primaryContainer: p, onPrimaryContainer: bg, outlineVariant: s
+                },
+                dark: {
+                    bgBase: bg,
+                    background: bg, surface: bg, surfaceContainer: surf, surfaceContainerHigh: surf, surfaceContainerHighest: surf,
+                    onSurface: p, onSurfaceVariant: s, primary: p, onPrimary: bg, primaryContainer: p, onPrimaryContainer: bg, outlineVariant: s
+                }
+            };
+
+            const existingIdx = m3Themes.findIndex(t => t.id === 'custom_created');
+            if(existingIdx >= 0) m3Themes[existingIdx] = userTheme;
+            else m3Themes.push(userTheme);
+
+            localStorage.setItem('linker_user_created_theme', JSON.stringify(userTheme));
+            window.setThemeTint('custom_created');
+            document.getElementById('customThemeCreatorModal').classList.remove('active');
+        };
+
+        function showAuthPanel() { document.getElementById('authPanel').classList.add('active'); document.getElementById('main-dock').classList.add('hidden'); }
+        
+        function completeLogin(user) {
+          state.user = user;
+          const initial = user.displayName ? user.displayName[0].toUpperCase() : 'U';
+          const nameStr = user.displayName || 'User';
+          
+          document.getElementById('auth-container').innerHTML = `
+            <div class="flex items-center gap-3 w-full">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg shrink-0" style="background: var(--btn-bg); color: var(--btn-text);">${initial}</div>
+                <div class="flex-1 min-w-0">
+                    <div class="font-bold text-sm truncate">${nameStr}</div>
+                    <div class="text-xs opacity-40 truncate" data-i18n="local_account">${I18N[state.lang].local_account}</div>
+                </div>
+            </div>
+            <button onclick="window.logoutUser()" class="btn3d btn-glass w-full mt-3 py-2 text-xs font-bold uppercase tracking-widest transition-all">
+                <span data-i18n="btn_destroy_session">${I18N[state.lang].btn_destroy_session}</span>
+            </button>
+            <div class="text-[0.6rem] opacity-50 text-center mt-1 leading-tight px-1" data-i18n="destroy_warning">${I18N[state.lang].destroy_warning}</div>
+          `;
+          
+          const sAvatar = document.getElementById('settings-user-avatar');
+          const sName = document.getElementById('settings-user-name');
+          if(sAvatar) sAvatar.innerText = initial;
+          if(sName) sName.innerText = nameStr;
+
+          document.getElementById('authPanel').classList.remove('active');
+          revealInterface(); lucide.createIcons();
+          trackLogin(nameStr);
+        }
+        
+        function trackLogin(username) {
+            const today = new Date().toISOString().split('T')[0];
+            let data = JSON.parse(localStorage.getItem('linkerru_daily_events')) || {};
+            if (!data[today]) data[today] = { totalLogins: 0, uniqueUsers: [], sessions: [] };
+            
+            data[today].totalLogins++;
+            if (!data[today].uniqueUsers.includes(username)) {
+                data[today].uniqueUsers.push(username);
+            }
+            data[today].sessions.push({ username, timestamp: Date.now() });
+            localStorage.setItem('linkerru_daily_events', JSON.stringify(data));
+        }
+
+        function revealInterface() {
+          renderCards();
+          document.querySelectorAll('.auth-wait').forEach(el => { el.classList.remove('auth-wait'); el.classList.add('animate-enter'); });
+          updateDockMode('main'); applyLanguage(); updateToggleUI();
+          document.body.classList.remove('cyclamen-mode', 'light-mode');
+          document.body.classList.add('expressive-mode');
+          if(state.lightMode) document.body.classList.add('light-mode');
+          if(state.cyclamenM3) document.body.classList.add('cyclamen-mode');
+          
+          applyTint(); 
+        }
+
+        function updateToggleUI() {
+            const setCheck = (id, val) => { const el = document.getElementById(id); if(el) el.checked = val; };
+            setCheck('toggle-cyclamen', state.cyclamenM3); setCheck('toggle-theme', state.lightMode);
+            setCheck('menu-toggle-cyclamen', state.cyclamenM3); setCheck('menu-toggle-theme', state.lightMode);
+            setCheck('set-toggle-cyclamen', state.cyclamenM3); setCheck('set-toggle-theme', state.lightMode);
+            
+            renderThemeSwatches();
+            
+            const btnC = document.getElementById('btn-temp-c');
+            const btnF = document.getElementById('btn-temp-f');
+            if (btnC && btnF) {
+                if (state.tempUnit === 'C') {
+                    btnC.classList.add('active'); btnF.classList.remove('active');
+                } else {
+                    btnF.classList.add('active'); btnC.classList.remove('active');
+                }
+            }
+        }
+
+        function updateDockMode(mode) {
+          const dock = document.getElementById('main-dock');
+          dock.classList.remove('hidden', 'dock-hidden-complete');
+          if (mode === 'app') {
+            document.getElementById('dock-left').classList.add('dock-collapsed'); document.getElementById('dock-right').parentNode.classList.add('dock-collapsed');
+            document.getElementById('dock-center').classList.remove('dock-collapsed'); document.getElementById('dock-center').classList.add('dock-center-visible');
+          } else {
+            document.getElementById('dock-left').classList.remove('dock-collapsed'); document.getElementById('dock-right').parentNode.classList.remove('dock-collapsed');
+            document.getElementById('dock-center').classList.remove('dock-center-visible'); document.getElementById('dock-center').classList.add('dock-collapsed');
+          }
+        }
+
+        function renderCards() {
+          const container = document.getElementById('cards-container'); container.innerHTML = '';
+          const t = I18N[state.lang]; 
+          state.proxies.forEach((p, i) => {
+            if(p.deleted) return;
+            const card = document.createElement('div');
+            
+            let isBulbOn = p.status !== false;
+            let isLocked = p.locked === true || isBulbOn === false; 
+            
+            card.className = `glass-panel proxy-card ${state.isEditMode ? 'edit-mode' : ''} ${!isLocked ? 'status-on' : 'status-off'} p-0`; 
+            card.id = `proxy-card-${p.id}`; card.style.animationDelay = `${i * 100}ms`;
+            
+            if(state.isEditMode) {
+                card.draggable = true;
+                card.ondragstart = handleDragStart;
+                card.ondragend = handleDragEnd;
+            }
+
+            const bulbClass = !isLocked ? 'bulb-icon text-white fill-white/20 drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]' : 'bulb-icon text-white/20 fill-none opacity-30';
+            const iconOpacity = !isLocked ? 'text-inherit' : 'opacity-30';
+            
+            let btnText = p.btnKey ? t[p.btnKey] : (p.btn || t.app_open);
+            if (p.isHub) btnText = t.select_server;
+            let descText = p.descKey ? t[p.descKey] : (p.desc || t.app_default_desc);
+            
+            let clickAction = p.openDirect ? `window.open('${p.url}', '_blank')` : `window.openProxy('${p.url}', '${p.title}')`;
+            if (p.isHub) clickAction = `window.toggleServerView('${p.id}', true)`;
+            
+            let clockClass = p.isBrewing ? 'clock-tick' : '';
+            let brokenBulbClass = (p.id === 'lisyan' && !isLocked) ? 'broken-bulb-fx' : '';
+            let iconHtml;
+            if (p.icon && p.icon.startsWith('<svg')) {
+                iconHtml = `<div class="w-7 h-7 flex items-center justify-center ${iconOpacity} ${clockClass}">${p.icon}</div>`;
+            } else if (p.icon && (p.icon.startsWith('http://') || p.icon.startsWith('https://'))) {
+                iconHtml = `<div class="w-7 h-7 flex items-center justify-center ${iconOpacity} ${clockClass}"><img src="${p.icon}" class="w-full h-full object-cover rounded-md" /></div>`;
+            } else {
+                iconHtml = `<div class="w-7 h-7 flex items-center justify-center ${iconOpacity} ${clockClass}"><i data-lucide="${p.icon || 'rocket'}" class="w-full h-full"></i></div>`;
+            }
+            
+            let lockedOverlay = isLocked ? `
+              <div class="absolute inset-0 z-30 flex flex-col items-center justify-center rounded-[inherit] pointer-events-none" style="background: rgba(128,128,128,0.05); color: var(--text-main);">
+                  <div class="mb-2 w-8 h-8 flex items-center justify-center clock-tick"><i data-lucide="clock" class="w-full h-full opacity-80"></i></div>
+                  <span class="text-xs font-bold uppercase tracking-widest text-center opacity-90 px-4" style="text-shadow: 0 2px 4px rgba(0,0,0,0.5);">${t.app_locked}</span>
+              </div>
+            ` : '';
+
+            card.innerHTML = `
+              ${lockedOverlay}
+              <div class="absolute top-4 right-4 z-20 flex flex-col items-end gap-2 pointer-events-none ${isLocked ? 'opacity-0' : ''}"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${bulbClass} ${brokenBulbClass} transition-all duration-300"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></div>
+              <div class="flex flex-col items-start justify-center flex-1 w-full pb-4 card-main-content cursor-pointer group ${isLocked ? 'opacity-0' : ''} p-6 pb-2 hover:opacity-80 transition-opacity" onclick="window.openAppDetails('${p.id}')" title="${descText}">
+                  <div class="card-icon-box group-hover:scale-105 transition-transform">${iconHtml}</div>
+                  <div class="text-left w-full mb-2">
+                      <h2 class="txt-title mb-0 truncate pr-6">${p.title}</h2>
+                      <div class="txt-desc truncate">${descText}</div>
+                  </div>
+              </div>
+              <div class="hidden flex-col gap-2 w-full h-full justify-center server-select-view p-6 pt-2"><div class="text-xs opacity-50 mb-2 uppercase tracking-widest font-bold text-center">${t.select_node}</div>${p.servers ? p.servers.map(s => {
+                  const badgeHtml = s.badge ? `<span class="ml-1.5 px-1.5 py-0.5 rounded text-[8px] uppercase tracking-wider bg-white/20 text-white">${s.badge}</span>` : '';
+                  const lockIcon = s.locked ? `<i data-lucide="lock" class="w-3 h-3 ml-1.5 opacity-50"></i>` : '';
+                  const action = s.locked ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : `onclick="window.openProxy('${s.url}', '${s.name}', true)"`;
+                  const hover = s.locked ? '' : 'hover:bg-white/10';
+                  return `<button ${action} class="btn3d btn-glass border-white/20 text-white text-xs py-2.5 flex items-center justify-center ${hover}">${s.name}${badgeHtml}${lockIcon}</button>`;
+              }).join('') : ''}<button onclick="window.toggleServerView('${p.id}', false)" class="text-xs text-center mt-2 opacity-50 hover:opacity-100 underline">${t.btn_back}</button></div>
+              <div class="w-full action-btn-container p-6 pt-0"><button class="btn3d btn-white w-full" ${isLocked ? 'disabled style="opacity:0.5"' : ''} onclick="${clickAction}"><span>${btnText}</span></button></div>`;
+            container.appendChild(card);
+          });
+          document.getElementById('news-message').innerHTML = state.news; lucide.createIcons(); updateToggleUI(); 
+          
+          const staticCards = document.querySelectorAll('.dashboard-grid > .glass-panel');
+          staticCards.forEach(card => {
+              if(state.isEditMode) {
+                  card.classList.add('edit-mode');
+                  card.draggable = true;
+                  card.ondragstart = handleDragStart;
+                  card.ondragend = handleDragEnd;
+              } else {
+                  card.classList.remove('edit-mode');
+                  card.draggable = false;
+                  card.ondragstart = null;
+                  card.ondragend = null;
+              }
+          });
+          
+          setupMagneticDrag();
+        }
+
+        window.openAppDetails = (appId) => {
+            const app = state.proxies.find(p => p.id === appId);
+            if(!app) return;
+            const t = I18N[state.lang];
+            
+            const iconBox = document.getElementById('details-icon-box');
+            const titleEl = document.getElementById('details-title');
+            const shortDescEl = document.getElementById('details-short-desc');
+            const longDescEl = document.getElementById('details-long-desc');
+            const launchBtn = document.getElementById('details-launch-btn');
+            const screenshotsContainer = document.getElementById('details-screenshots');
+            
+            let isBulbOn = app.status !== false;
+            let isLocked = app.locked === true || isBulbOn === false; 
+            
+            let iconOpacity = !isLocked ? 'text-inherit' : 'opacity-30';
+            if (app.icon && app.icon.startsWith('<svg')) {
+                iconBox.innerHTML = `<div class="w-12 h-12 ${iconOpacity}">${app.icon}</div>`;
+            } else if (app.icon && (app.icon.startsWith('http://') || app.icon.startsWith('https://'))) {
+                iconBox.innerHTML = `<div class="w-12 h-12 flex items-center justify-center ${iconOpacity}"><img src="${app.icon}" class="w-full h-full object-cover rounded-xl" /></div>`;
+            } else {
+                iconBox.innerHTML = `<i data-lucide="${app.icon || 'rocket'}" class="w-12 h-12 ${iconOpacity}"></i>`;
+            }
+            
+            titleEl.innerText = app.title;
+            shortDescEl.innerText = app.descKey ? t[app.descKey] : (app.desc || t.app_default_desc);
+            longDescEl.innerText = t.app_details_desc_placeholder;
+            
+            screenshotsContainer.innerHTML = '';
+            const urlsToPreview = app.isHub && app.servers ? app.servers.map(s => s.url) : [app.url];
+            
+            urlsToPreview.forEach(url => {
+                if(!url || url === 'about:blank') return;
+                screenshotsContainer.innerHTML += `
+                    <div class="relative w-56 h-36 rounded-xl shrink-0 border overflow-hidden bg-black/20" style="border-color: var(--glass-border);">
+                        <div class="absolute inset-0 z-10 pointer-events-none"></div>
+                        <iframe src="${url}" class="absolute top-0 left-0 w-[400%] h-[400%] pointer-events-none select-none border-none origin-top-left" style="transform: scale(0.25);"></iframe>
+                    </div>
+                `;
+            });
+            
+            if(screenshotsContainer.innerHTML === '') {
+                screenshotsContainer.innerHTML = `<div class="w-48 h-32 rounded-xl shrink-0 border border-dashed flex items-center justify-center opacity-30" style="border-color: var(--glass-border);"><i data-lucide="image" class="w-8 h-8"></i></div>`;
+            }
+
+            if(isLocked) {
+                launchBtn.disabled = true;
+                launchBtn.style.opacity = '0.5';
+                launchBtn.innerText = t.app_btn_locked;
+                launchBtn.onclick = null;
+            } else {
+                launchBtn.disabled = false;
+                launchBtn.style.opacity = '1';
+                launchBtn.innerText = app.btnKey ? t[app.btnKey] : (app.btn || t.app_open);
+                if(app.isHub) {
+                    launchBtn.innerText = t.select_server;
+                    launchBtn.onclick = () => {
+                        document.getElementById('appDetailsModal').classList.remove('active');
+                        window.toggleServerView(app.id, true);
+                    };
+                } else {
+                    launchBtn.onclick = () => {
+                        document.getElementById('appDetailsModal').classList.remove('active');
+                        if (app.openDirect) {
+                            window.open(app.url, '_blank');
+                        } else {
+                            window.openProxy(app.url, app.title);
+                        }
+                    };
+                }
+            }
+
+            lucide.createIcons();
+            document.getElementById('appDetailsModal').classList.add('active');
+        };
+        
+        window.toggleServerView = (cardId, showServers) => {
+            const card = document.getElementById(`proxy-card-${cardId}`), mainContent = card?.querySelector('.card-main-content'), actionBtn = card?.querySelector('.action-btn-container'), serverView = card?.querySelector('.server-select-view');
+            if(!card) return;
+            if(showServers) {
+                gsap.to([mainContent, actionBtn], { opacity: 0, y: -20, duration: 0.3, onComplete: () => { mainContent.classList.add('hidden'); actionBtn.classList.add('hidden'); serverView.classList.remove('hidden'); serverView.classList.add('flex'); gsap.fromTo(serverView, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3 }); }});
+            } else {
+                gsap.to(serverView, { opacity: 0, y: 20, duration: 0.3, onComplete: () => { serverView.classList.add('hidden'); serverView.classList.remove('flex'); mainContent.classList.remove('hidden'); actionBtn.classList.remove('hidden'); gsap.fromTo([mainContent, actionBtn], { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.3 }); }});
+            }
+        }
+
+        const ctxMenu = document.getElementById('context-menu');
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            const x = Math.min(e.clientX, window.innerWidth - 200);
+            const y = Math.min(e.clientY, window.innerHeight - 200);
+            ctxMenu.style.left = `${x}px`;
+            ctxMenu.style.top = `${y}px`;
+            ctxMenu.classList.add('active');
+        });
+        document.addEventListener('click', (e) => {
+            if(!ctxMenu.contains(e.target)) ctxMenu.classList.remove('active');
+        });
+
+        window.toggleEditMode = () => {
+            state.isEditMode = !state.isEditMode;
+            renderCards(); 
+            ctxMenu.classList.remove('active');
+        };
+
+        let draggedEl = null;
+        function handleDragStart(e) {
+            draggedEl = this;
+            e.dataTransfer.effectAllowed = 'move';
+            setTimeout(() => this.classList.add('dragging'), 0); 
+        }
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+            draggedEl = null;
+        }
+        
+        function setupMagneticDrag() {
+            const grid = document.querySelector('.dashboard-grid');
+            if(grid.hasAttribute('data-dnd-init')) return;
+            grid.setAttribute('data-dnd-init', 'true');
+            
+            grid.addEventListener('dragover', e => {
+                if(!state.isEditMode) return;
+                e.preventDefault();
+                const dragged = document.querySelector('.dragging');
+                if(!dragged) return;
+
+                const draggables = [...document.querySelectorAll('.glass-panel.edit-mode:not(.dragging)')];
+                const closest = draggables.reduce((acc, child) => {
+                    const box = child.getBoundingClientRect();
+                    const centerX = box.left + box.width / 2;
+                    const centerY = box.top + box.height / 2;
+                    const distance = Math.hypot(e.clientX - centerX, e.clientY - centerY);
+                    if (distance < acc.distance) {
+                        return { distance: distance, element: child, centerX, centerY };
+                    } else {
+                        return acc;
+                    }
+                }, { distance: Number.POSITIVE_INFINITY });
+
+                if(closest.element && dragged !== closest.element) {
+                    const parent = closest.element.parentNode;
+                    if(e.clientY < closest.centerY || (Math.abs(e.clientY - closest.centerY) < 50 && e.clientX < closest.centerX)) {
+                        parent.insertBefore(dragged, closest.element);
+                    } else {
+                        parent.insertBefore(dragged, closest.element.nextSibling);
+                    }
+                }
+            });
+        }
+
+        window.showSystemMessage = (title, text, icon = 'info') => {
+          document.getElementById('notificationModal').classList.add('active'); document.getElementById('notif-title').innerText = title; document.getElementById('notif-body').innerText = text; document.getElementById('notif-icon').setAttribute('data-lucide', icon); lucide.createIcons();
+        };
+
+        window.setFont = (type, fontString) => { 
+            state.fontBody = fontString; 
+            state.fontHeading = fontString;
+            document.documentElement.style.setProperty('--font-body', fontString); 
+            document.documentElement.style.setProperty('--font-heading', fontString); 
+            localStorage.setItem('fontBody', fontString); 
+            localStorage.setItem('fontHeading', fontString); 
+            
+            document.querySelectorAll('.font-option').forEach(el => el.classList.remove('active'));
+            const activeEl = Array.from(document.querySelectorAll('.font-option')).find(el => el.style.fontFamily.includes(fontString.split(',')[0].replace(/['"]/g, '')));
+            if(activeEl) activeEl.classList.add('active');
+        }
+        window.copyToClipboard = (text, btnElement) => { const ta = document.createElement("textarea"); ta.value = text; ta.style.position = "fixed"; ta.style.left = "-9999px"; document.body.appendChild(ta); ta.focus(); ta.select(); try { const s = document.execCommand('copy'); if (s && !btnElement.classList.contains('is-success')) { btnElement.classList.add('is-success'); setTimeout(() => { btnElement.classList.remove('is-success'); }, 2500); } } catch (e) {} document.body.removeChild(ta); };
+        window.logoutUser = () => { localStorage.clear(); window.location.reload(); }
+        window.updateAuthText = () => { document.getElementById('auth-submit-btn').innerText = I18N[state.lang].btn_login; }
+        
+        window.togglePolicyAccept = () => { 
+            state.registerPolicyAccepted = !state.registerPolicyAccepted; 
+            const box = document.getElementById('policy-checkbox');
+            const icon = document.getElementById('policy-check-icon'); 
+            if (state.registerPolicyAccepted) { 
+                box.style.backgroundColor = '#fff'; 
+                box.style.borderColor = '#fff'; 
+                icon.style.color = '#000';
+                icon.classList.remove('opacity-0', 'scale-50'); 
+                icon.classList.add('scale-100', 'opacity-100'); 
+            } else { 
+                box.style.backgroundColor = 'transparent'; 
+                box.style.borderColor = '#555'; 
+                icon.classList.add('opacity-0', 'scale-50'); 
+                icon.classList.remove('scale-100', 'opacity-100'); 
+            } 
+        };
+        
+        window.handleAuth = () => { const name = document.getElementById('auth-name').value.trim(), err = document.getElementById('auth-error'); err.style.opacity = '0'; if (!name) { err.innerText = 'Name required / Имя обязательно'; err.style.opacity = '1'; return; } if (!state.registerPolicyAccepted) { err.innerText = 'Policy required / Примите условия'; err.style.opacity = '1'; return; } document.getElementById('auth-submit-btn').innerHTML = '<span class="animate-pulse">...</span>'; localStorage.setItem('linker_username', name); localStorage.setItem('linker_policy_accepted', 'true'); setTimeout(() => { completeLogin({ displayName: name, uid: 'local-' + Date.now() }); }, 600); };
+        
+        window.setEventColor = (color) => { state.eventColor = color; document.documentElement.style.setProperty('--event-color', color); localStorage.setItem('eventColor', color); }
+        
+        window.toggleCyclamenM3 = () => {
+            state.cyclamenM3 = !state.cyclamenM3;
+            saveAndApplyModes();
+        };
+        window.toggleTheme = () => { 
+            state.lightMode = !state.lightMode; 
+            saveAndApplyModes(); 
+        };
+        
+        window.switchSettingsTab = (tabId) => {
+            document.querySelectorAll('.m3-tab').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.settings-section').forEach(el => el.style.display = 'none');
+            
+            const btn = document.querySelector(`.m3-tab[data-tab="${tabId}"]`);
+            if(btn) btn.classList.add('active');
+            
+            const section = document.getElementById(`tab-${tabId}`);
+            if(section) section.style.display = 'flex';
+        };
+
+        window.handleVersionClick = () => {
+            state.versionClickCount++;
+            if (state.versionClickCount >= 5) {
+                const t = I18N[state.lang];
+                window.showSystemMessage(t.beta_unlocked_title, state.lang === 'ru' ? "Бета-функции уже открыты для всех пользователей по умолчанию!" : "Beta features are already unlocked for all users by default!", 'flask-conical');
+                state.versionClickCount = 0;
+            }
+            clearTimeout(window.versionClickTimeout);
+            window.versionClickTimeout = setTimeout(() => { state.versionClickCount = 0; }, 2000);
+        };
+        
+        window.setThemeTint = (tint) => {
+            state.themeTint = tint;
+            localStorage.setItem('themeTint', state.themeTint);
+            applyTint();
+        };
+        
+        function applyTint() {
+            const mode = state.lightMode ? 'light' : 'dark';
+            const themeObj = m3Themes.find(t => t.id === state.themeTint) || m3Themes[0];
+            const colors = themeObj[mode];
+            const root = document.documentElement.style;
+            
+            ['background', 'surface', 'surfaceContainer', 'surfaceContainerHigh', 'surfaceContainerHighest',
+             'onSurface', 'onSurfaceVariant', 'primary', 'onPrimary', 'primaryContainer', 'onPrimaryContainer', 'outlineVariant'].forEach(k => {
+                 const cssVar = '--md-' + k.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
+                 root.setProperty(cssVar, colors[k]);
+            });
+
+            root.setProperty('--bg-gradient', colors.background);
+            root.setProperty('--glass-bg', colors.surfaceContainer);
+            root.setProperty('--capsule-bg', colors.surfaceContainerHigh);
+            root.setProperty('--text-main', colors.onSurface);
+            root.setProperty('--text-muted', colors.onSurfaceVariant);
+            root.setProperty('--btn-bg', colors.primary);
+            root.setProperty('--btn-text', colors.onPrimary);
+            root.setProperty('--setting-btn-bg', colors.surfaceContainerHighest);
+            root.setProperty('--setting-btn-hover', colors.surfaceContainerHigh);
+            
+            updateToggleUI();
+        }
+
+        function saveAndApplyModes() {
+            localStorage.setItem('cyclamenM3', state.cyclamenM3); 
+            localStorage.setItem('lightMode', state.lightMode); 
+            updateToggleUI();
+            
+            document.body.classList.remove('cyclamen-mode', 'light-mode');
+            document.body.classList.add('expressive-mode');
+            if(state.lightMode) document.body.classList.add('light-mode');
+            if(state.cyclamenM3) document.body.classList.add('cyclamen-mode');
+            
+            applyTint();
+            applyLanguage();
+        }
+
+        async function initWeather() {
+            try {
+                const geoRes = await fetch('https://get.geojs.io/v1/ip/geo.json');
+                const geoData = await geoRes.json();
+                fetchWeather(geoData.latitude, geoData.longitude);
+            } catch (e) {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (pos) => fetchWeather(pos.coords.latitude, pos.coords.longitude),
+                        (err) => console.log('Weather location denied/failed')
+                    );
+                }
+            }
+        }
+        
+        function getWeatherIcon(code) {
+            let icon = 'cloud';
+            if(code === 0) icon = 'sun';
+            else if(code >= 1 && code <= 3) icon = 'cloud-sun';
+            else if(code >= 45 && code <= 48) icon = 'cloud-fog';
+            else if(code >= 51 && code <= 67) icon = 'cloud-drizzle';
+            else if(code >= 71 && code <= 77) icon = 'snowflake';
+            else if(code >= 80 && code <= 82) icon = 'cloud-rain';
+            else if(code >= 95) icon = 'cloud-lightning';
+            return icon;
+        }
+
+        window.setTempUnit = (u) => {
+            state.tempUnit = u;
+            localStorage.setItem('tempUnit', u);
+            if (window.weatherData) {
+                updateWeatherUI(window.weatherData.current_weather.temperature, window.weatherData.current_weather.weathercode);
+                renderWeatherModal(window.weatherData);
+            }
+        };
+
+        function convertTemp(c) {
+            return state.tempUnit === 'F' ? Math.round(c * 9/5 + 32) : Math.round(c);
+        }
+
+        async function fetchWeather(lat, lon) {
+            try {
+                const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=temperature_2m,weathercode&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=auto`);
+                const data = await res.json();
+                if (data && data.current_weather) {
+                    window.weatherData = data; 
+                    updateWeatherUI(data.current_weather.temperature, data.current_weather.weathercode);
+                    if (document.getElementById('weatherModal').classList.contains('active')) {
+                        renderWeatherModal(data);
+                    }
+                }
+            } catch (e) { console.error("Weather error", e); }
+        }
+        
+        function updateWeatherUI(tempC, code) {
+            const el = document.getElementById('weather-widget');
+            const bubble = document.getElementById('dock-weather');
+            const tempEl = document.getElementById('weather-temp');
+            if (!el || !tempEl) return;
+            
+            const icon = getWeatherIcon(code);
+            let iconEl = el.querySelector('i');
+            if(!iconEl) {
+                el.insertAdjacentHTML('afterbegin', `<i data-lucide="${icon}" class="w-4 h-4"></i>`);
+                iconEl = el.querySelector('i');
+            } else {
+                iconEl.setAttribute('data-lucide', icon);
+            }
+            tempEl.innerText = `${convertTemp(tempC)}°`;
+            if (bubble) {
+                bubble.classList.remove('hidden');
+                bubble.classList.add('flex');
+            }
+            lucide.createIcons();
+            updateToggleUI();
+        }
+
+        window.openWeatherModal = () => {
+            document.getElementById('weatherModal').classList.add('active');
+            if (window.weatherData) renderWeatherModal(window.weatherData);
+        };
+
+        function renderWeatherModal(data) {
+            const hContainer = document.getElementById('wm-hourly-container');
+            const dContainer = document.getElementById('wm-daily-container');
+            document.getElementById('wm-current-temp').innerText = convertTemp(data.current_weather.temperature) + '°';
+            
+            hContainer.innerHTML = '';
+            const now = new Date();
+            const currentHour = now.getHours();
+            const hourlyTimes = data.hourly.time;
+            const startIndex = hourlyTimes.findIndex(t => new Date(t).getHours() === currentHour && new Date(t).getDate() === now.getDate());
+            
+            if(startIndex !== -1) {
+                for(let i = startIndex; i < startIndex + 24; i++) {
+                    if(i >= hourlyTimes.length) break;
+                    const t = new Date(hourlyTimes[i]);
+                    const code = data.hourly.weathercode[i];
+                    const temp = convertTemp(data.hourly.temperature_2m[i]);
+                    const icon = getWeatherIcon(code);
+                    const timeStr = String(t.getHours()).padStart(2, '0') + ':00';
+                    
+                    hContainer.innerHTML += `
+                        <div class="flex flex-col items-center gap-2 p-3 rounded-xl bg-black/5 dark:bg-white/5 min-w-[70px]">
+                            <span class="text-xs opacity-60 font-mono">${timeStr}</span>
+                            <i data-lucide="${icon}" class="w-6 h-6 opacity-80"></i>
+                            <span class="font-bold text-sm">${temp}°</span>
+                        </div>
+                    `;
+                }
+            }
+
+            dContainer.innerHTML = '';
+            data.daily.time.forEach((tStr, i) => {
+                const t = new Date(tStr);
+                const dayName = t.toLocaleDateString(state.lang === 'ru' ? 'ru-RU' : 'en-US', { weekday: 'short' }).toUpperCase();
+                const icon = getWeatherIcon(data.daily.weathercode[i]);
+                const max = convertTemp(data.daily.temperature_2m_max[i]);
+                const min = convertTemp(data.daily.temperature_2m_min[i]);
+                
+                dContainer.innerHTML += `
+                    <div class="flex items-center justify-between p-3 border-b border-black/5 dark:border-white/5 last:border-0 hover:bg-black/5 dark:hover:bg-white/5 transition rounded-lg">
+                        <span class="w-12 font-bold opacity-80 text-sm">${dayName}</span>
+                        <i data-lucide="${icon}" class="w-5 h-5 opacity-80"></i>
+                        <div class="flex gap-3 w-20 justify-end font-mono text-sm">
+                            <span class="opacity-60">${min}°</span>
+                            <span class="font-bold">${max}°</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            lucide.createIcons();
+            updateToggleUI();
+        }
+
+        window.setClockMode = (mode) => {
+            const digi = document.getElementById('clock-view-digital');
+            const ana = document.getElementById('clock-view-analog');
+            const btnD = document.getElementById('btn-clock-digital');
+            const btnA = document.getElementById('btn-clock-analog');
+            
+            if(mode === 'digital') {
+                digi.classList.remove('hidden');
+                ana.classList.add('hidden');
+                btnD.classList.remove('opacity-50'); btnD.classList.add('opacity-100', 'bg-white/10');
+                btnA.classList.add('opacity-50'); btnA.classList.remove('opacity-100', 'bg-white/10');
+            } else {
+                digi.classList.add('hidden');
+                ana.classList.remove('hidden');
+                btnA.classList.remove('opacity-50'); btnA.classList.add('opacity-100', 'bg-white/10');
+                btnD.classList.add('opacity-50'); btnD.classList.remove('opacity-100', 'bg-white/10');
+            }
+        };
+
+        window.openClockModal = () => {
+            document.getElementById('clockModal').classList.add('active');
+            window.setClockMode('digital');
+        };
+
+        let currentCalDate = new Date();
+        window.openCalendarModal = () => {
+            currentCalDate = new Date();
+            renderCalendar();
+            document.getElementById('calendarModal').classList.add('active');
+        };
+        
+        window.changeMonth = (dir) => {
+            currentCalDate.setMonth(currentCalDate.getMonth() + dir);
+            renderCalendar();
+        };
+
+        function renderCalendar() {
+            const monthYearEl = document.getElementById('cal-month-year');
+            const daysEl = document.getElementById('cal-days');
+            const weekdaysEl = document.getElementById('cal-weekdays');
+            
+            const isRu = state.lang === 'ru';
+            const weekdays = isRu ? ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'] : ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+            weekdaysEl.innerHTML = weekdays.map(d => `<div>${d}</div>`).join('');
+
+            const monthNamesRu = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+            const monthNamesEn = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            
+            const month = currentCalDate.getMonth();
+            const year = currentCalDate.getFullYear();
+            
+            monthYearEl.innerText = `${isRu ? monthNamesRu[month] : monthNamesEn[month]} ${year}`;
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            let startDay = firstDay === 0 ? 6 : firstDay - 1;
+
+            let html = '';
+            for(let i=0; i<startDay; i++) html += `<div></div>`;
+            
+            const today = new Date();
+            for(let i=1; i<=daysInMonth; i++) {
+                const isToday = today.getDate() === i && today.getMonth() === month && today.getFullYear() === year;
+                const baseClass = "w-10 h-10 mx-auto flex items-center justify-center rounded-full text-sm transition-all";
+                const activeClass = isToday ? "font-bold shadow-lg scale-110" : "hover:bg-white/10 opacity-80 cursor-pointer";
+                const bgStyle = isToday ? `background: var(--btn-bg); color: var(--btn-text);` : ``;
+                
+                html += `<div class="${baseClass} ${activeClass}" style="${bgStyle}" onclick="window.openCalendarModal()">${i}</div>`;
+            }
+            daysEl.innerHTML = html;
+        }
+
+        window.openSettings = (event) => {
+          if (event) event.stopPropagation();
+          const menu = document.getElementById('mini-settings-popover');
+          const btn = document.getElementById('dock-settings-btn');
+          if (menu.classList.contains('active')) {
+              window.closeMiniSettings();
+              return;
+          }
+          if (btn) {
+              const rect = btn.getBoundingClientRect();
+              const rightOffset = window.innerWidth - rect.right;
+              menu.style.top = (rect.bottom + 15) + 'px'; 
+              menu.style.right = rightOffset + 'px'; 
+              menu.style.left = 'auto';
+          }
+          menu.classList.add('active');
+        };
+        
+        window.closeMiniSettings = () => { document.getElementById('mini-settings-popover').classList.remove('active'); };
+        
+        document.addEventListener('click', (e) => {
+            const menu = document.getElementById('mini-settings-popover');
+            const btn = document.getElementById('dock-settings-btn');
+            if (menu && menu.classList.contains('active') && !menu.contains(e.target) && btn && !btn.contains(e.target)) {
+                window.closeMiniSettings();
+            }
+        });
+
+        window.openFullSettings = () => { 
+          window.closeMiniSettings();
+          document.getElementById('fullSettingsPanel').classList.add('active'); 
+          document.getElementById('main-dock').classList.add('dock-lifted');
+          document.getElementById('panic-url-input').value = state.panicUrl; 
+        };
+        window.openPrivacyModal = () => { document.getElementById('privacyPolicyModal').classList.add('active'); };
+        window.openChangelog = () => { document.getElementById('changelogPanel').classList.add('active'); };
+        window.openTelegramModal = () => { document.getElementById('telegramModal').classList.add('active'); };
+        
+        window.startKeyCapture = (el, stateKey) => { el.value = state.lang === 'ru' ? 'Нажмите клавиши...' : 'Press keys...'; el.style.opacity = '1'; const handler = (e) => { e.preventDefault(); const parts = []; if (e.ctrlKey) parts.push('Ctrl'); if (e.shiftKey) parts.push('Shift'); if (e.altKey) parts.push('Alt'); if (!['Control', 'Shift', 'Alt', 'Meta'].includes(e.key)) parts.push(e.key.length === 1 ? e.key.toUpperCase() : e.key); const combo = parts.join('+'); if (parts.length > 0 && !['Ctrl', 'Shift', 'Alt'].includes(combo)) { state[stateKey] = combo; localStorage.setItem(stateKey, combo); el.value = combo; el.style.color = 'var(--text-main)'; el.blur(); document.removeEventListener('keydown', handler); } }; el.addEventListener('blur', () => { document.removeEventListener('keydown', handler); el.value = state[stateKey]; el.style.color = 'var(--text-main)'; }, { once: !0 }); document.addEventListener('keydown', handler); };
+        document.addEventListener('keydown', (e) => { if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return; const parts = []; if (e.ctrlKey) parts.push('Ctrl'); if (e.shiftKey) parts.push('Shift'); if (e.altKey) parts.push('Alt'); if (!['Control', 'Shift', 'Alt', 'Meta'].includes(e.key)) parts.push(e.key.length === 1 ? e.key.toUpperCase() : e.key); const combo = parts.join('+'); if (combo === state.panicKey) { e.preventDefault(); window.location.href = state.panicUrl; } if (combo === state.assistantKey) { e.preventDefault(); window.openProxy('https://lisyan.netlify.app/', 'ManasAi'); } });
+        
+        window.openProxy = (url, title, isServer = false) => { 
+            const bg = title === 'Rummerhead' ? '#ffffff' : '#000000'; 
+            const win = window.open('about:blank', '_blank'); 
+            const docTitle = 'about:blank';
+
+            if (win) { 
+                win.document.write(`<!DOCTYPE html><html><head><title>${docTitle}</title><style>@import url('https://fonts.googleapis.com/css2?family=Space+Mono&family=Inter:wght@300;400;600&display=swap'); * { border: 0; box-sizing: border-box; margin: 0; padding: 0; }:root { --bg-color: #000000; --m3-surface: #1C1B1F; --m3-on-surface: #E6E1E5; --loader-color: #FFFFFF; font-size: clamp(1rem, 0.9rem + 0.5vw, 1.5rem); }body { background-color: var(--bg-color); color: var(--m3-on-surface); font-family: 'Inter', sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; overflow: hidden; transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1); margin: 0; }body.app-ready { background-color: ${bg}; }.main-wrapper { display: flex; flex-direction: column; align-items: center; text-align: center; z-index: 20; transition: opacity 0.5s, transform 0.5s; }.main-wrapper.hide { opacity: 0; transform: scale(0.9); pointer-events: none; }.logo-container { width: 60vw; max-width: 400px; margin-bottom: 2rem; }.text-content { opacity: 0.8; }.tagline { font-size: 1.1rem; letter-spacing: 0.05em; font-weight: 300; margin-bottom: 0.5rem; text-transform: lowercase; }.accent { font-weight: 600; color: #ffffff; }.subtext { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: #666; letter-spacing: 0.1em; }.fade-in { animation: fadeIn 2s ease-out forwards; }@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 0.8; transform: translateY(0); } }iframe { position: absolute; inset: 0; border: none; width: 100%; height: 100%; opacity: 0; transition: opacity 0.8s ease-in; pointer-events: none; z-index: 10; }body.app-ready iframe { opacity: 1; pointer-events: auto; } ${isServer ? `.links-pill { position: absolute; top: 24px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 99px; padding: 8px 16px; gap: 16px; color: #fff; font-size: 0.8rem; z-index: 100; opacity: 0; animation: fadeIn 1s ease-out 0.5s forwards; } .link-item { display: flex; align-items: center; gap: 8px; font-weight: 600; } .link-item svg { width: 18px; height: 18px; } .link-item button { background: rgba(255,255,255,0.2); color: #fff; border: none; padding: 6px 12px; border-radius: 99px; font-size: 0.7rem; cursor: pointer; transition: 0.2s; font-weight: bold; font-family: inherit; } .link-item button:hover { background: rgba(255,255,255,0.3); } .pill-divider { width: 1px; height: 20px; background: rgba(255,255,255,0.2); }` : ''}</style></head><body><div id="loader-wrapper" class="main-wrapper"><div class="logo-container"><svg viewBox="0 0 100 100" id="mainSvg" class="w-full h-full overflow-visible" style="width:100%; height:100%; overflow:visible;"><path id="logoPath" d="M30 50 A12 12 0 1 1 50 50 A12 12 0 1 0 70 50" fill="none" stroke="var(--loader-color)" stroke-width="8" stroke-linecap="round" /><g id="ballGroup"><g id="stretchGroup"><circle id="ball" r="3.2" fill="var(--bg-color)" /></g></g></svg></div><div class="text-content fade-in"><p class="tagline">connecting you to <span class="accent">digital freedom</span></p><p class="subtext">launching ${title}</p></div></div>${isServer ? `<div id="links-pill" class="links-pill"><div class="link-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.1z"/><path d="m21.854 2.147-10.94 10.939"/></svg><span>Telegram</span><button onclick="copyToClipboard('https://web.telegram.org/a/', this)">Копировать</button></div><div class="pill-divider"></div><div class="link-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><span>SoundCloud</span><button onclick="copyToClipboard('soundcloud.com/', this)">Копировать</button></div></div>` : ''}<iframe src="${url}" id="app-frame"></iframe><script>const pathElement = document.getElementById('logoPath');const ballGroup = document.getElementById('ballGroup');const stretchGroup = document.getElementById('stretchGroup');let totalLength = 0;if(pathElement) { totalLength = pathElement.getTotalLength(); }let progress = 0;let speed = 0.005;let direction = 1;let animId;function animate() { if(!pathElement || !ballGroup || !stretchGroup) return; progress += speed * direction; if (progress >= 1 || progress <= 0) { direction *= -1; progress = Math.max(0, Math.min(1, progress)); } const point = pathElement.getPointAtLength(progress * totalLength); const delta = 0.01; const nextProgress = Math.max(0, Math.min(1, progress + delta * direction)); const nextPoint = pathElement.getPointAtLength(nextProgress * totalLength); const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * 180 / Math.PI; ballGroup.setAttribute('transform', 'translate(' + point.x + ', ' + point.y + ') rotate(' + angle + ')'); stretchGroup.setAttribute('transform', 'scale(1.03, 0.97)'); animId = requestAnimationFrame(animate); } if(pathElement) animate(); window.copyToClipboard = function(text, btn) { const ta = document.createElement("textarea"); ta.value = text; ta.style.position = "fixed"; ta.style.left = "-9999px"; document.body.appendChild(ta); ta.focus(); ta.select(); try { document.execCommand('copy'); const oldText = btn.innerText; btn.innerText = "Скопировано!"; setTimeout(() => btn.innerText = oldText, 2000); } catch(e){} document.body.removeChild(ta); }; setTimeout(() => { const loaderWrapper = document.getElementById('loader-wrapper'); const linksPill = document.getElementById('links-pill'); if(loaderWrapper) loaderWrapper.classList.add('hide'); if(linksPill) linksPill.style.display = 'none'; setTimeout(() => { document.body.classList.add('app-ready'); cancelAnimationFrame(animId); setTimeout(() => { if(loaderWrapper) loaderWrapper.remove(); }, 1000); }, 400); }, 4000);<\/script></body></html>`); 
+                win.document.close(); 
+            } 
+        };
+        window.closeCurrentApp = () => {};
+
+        window.onload = async () => {
+          const savedName = localStorage.getItem('linker_username'); const savedPolicy = localStorage.getItem('linker_policy_accepted');
+          
+          // Load Custom Mix Theme if previously configured
+          const savedUserTheme = localStorage.getItem('linker_user_created_theme');
+          if(savedUserTheme) {
+              try {
+                  const parsed = JSON.parse(savedUserTheme);
+                  const existingIdx = m3Themes.findIndex(t => t.id === 'custom_created');
+                  if(existingIdx >= 0) m3Themes[existingIdx] = parsed;
+                  else m3Themes.push(parsed);
+              } catch(e) {}
+          }
+
+          if (savedName && savedPolicy === 'true') { completeLogin({ displayName: savedName, uid: 'local-' + Date.now() }); } else { showAuthPanel(); }
+
+          applyLanguage(); saveAndApplyModes(); renderThemeSwatches();
+          
+          if(state.fontHeading) document.documentElement.style.setProperty('--font-heading', state.fontHeading);
+          if(state.fontBody) document.documentElement.style.setProperty('--font-body', state.fontBody);
+          if(state.eventColor) document.documentElement.style.setProperty('--event-color', state.eventColor);
+          
+          setInterval(() => { 
+              const d = new Date(); 
+              const h = d.getHours();
+              const m = d.getMinutes();
+              const s = d.getSeconds();
+              document.getElementById('clock').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`; 
+              document.getElementById('date-display').innerText = `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth() + 1).padStart(2,'0')}`; 
+              const digi = document.getElementById('clock-view-digital');
+              if(digi) digi.innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+              const aH = document.getElementById('analog-hour');
+              const aM = document.getElementById('analog-minute');
+              const aS = document.getElementById('analog-second');
+              if(aH && aM && aS) {
+                  aH.style.transform = `rotate(${(h % 12) * 30 + m * 0.5}deg)`;
+                  aM.style.transform = `rotate(${m * 6 + s * 0.1}deg)`;
+                  aS.style.transform = `rotate(${s * 6}deg)`;
+              }
+          }, 1000);
+          initWeather(); 
+          initParticles();
+          window.setFont('body', state.fontBody);
+        };
+
+        let swipeStartX = 0;
+        let swipeCurrentX = 0;
+        let isTwoFingerSwipe = false;
+        window.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 2) {
+                isTwoFingerSwipe = true;
+                swipeStartX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+                swipeCurrentX = swipeStartX;
+            } else { isTwoFingerSwipe = false; }
+        }, { passive: true });
+        window.addEventListener('touchmove', (e) => {
+            if (isTwoFingerSwipe && e.touches.length === 2) {
+                swipeCurrentX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+            }
+        }, { passive: true });
+        window.addEventListener('touchend', (e) => {
+            if (isTwoFingerSwipe) {
+                const diff = swipeCurrentX - swipeStartX;
+                if (diff < -70) { window.history.back(); } else if (diff > 70) { window.history.forward(); }
+                isTwoFingerSwipe = false;
+            }
+        }, { passive: true });
+      </script>
+    </div>
+  </body> 
+</html>
+
