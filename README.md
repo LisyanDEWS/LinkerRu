@@ -1,14 +1,120 @@
-# LinkerRu
+# LinkerRu XII
 
-## Next.js component library refactor
+**Персональная стартовая страница** — современный дашборд на React + Next.js + TypeScript с поддержкой тем, прокси-ссылок, виджетов и Telegram каналов.
 
-This repository is being prepared to host a reusable Next.js component-based version of the original LinkerRu interface.
+---
 
-Planned structure:
-- `src/components/ui` — reusable primitives
-- `src/components/layout` — app shell and dock
-- `src/components/modals` — modal windows
-- `src/components/widgets` — dashboard widgets
-- `src/hooks` — state and behavior hooks
-- `src/lib` — theme, storage, and utility helpers
-- `src/data` — app/theme/i18n data
+## 🚀 Быстрый старт
+
+```bash
+# Установить зависимости
+npm install
+
+# Запустить в режиме разработки
+npm run dev
+
+# Собрать для продакшн
+npm run build
+npm start
+```
+
+Откройте [http://localhost:3000](http://localhost:3000) в браузере.
+
+---
+
+## ✨ Возможности
+
+| Функция | Описание |
+|---|---|
+| 🎨 **Темы** | 8 встроенных тем + цветовой микшер (custom) |
+| 🌌 **Частицы** | Анимированный фон ParticleCanvas |
+| ⏰ **Виджет часов** | Часы с секундами, дата |
+| 📅 **Виджет календаря** | Мини-календарь с навигацией |
+| 🌤️ **Виджет погоды** | OpenWeatherMap (требуется API ключ) |
+| 🔗 **Быстрые ссылки** | Сетка популярных сайтов с поиском |
+| ✈️ **Telegram каналы** | Каталог Telegram каналов |
+| 🔌 **Прокси-режим** | Перенаправление ссылок через прокси |
+| 💾 **Персистентность** | Настройки сохраняются в `localStorage` |
+| ⌨️ **Горячие клавиши** | `,` → настройки, `Esc` → закрыть модал |
+| 🚢 **Dock** | Нижняя (или верхняя) панель быстрого доступа |
+
+---
+
+## 🗂️ Структура проекта
+
+```
+src/
+├── app/
+│   ├── layout.tsx          # Корневой макет Next.js
+│   ├── page.tsx            # Главная страница
+│   └── globals.css         # Глобальные стили + CSS-переменные тем
+├── components/
+│   ├── LinkerApp.tsx       # Корневой клиентский компонент
+│   ├── ParticleCanvas.tsx  # Анимированный фон с частицами
+│   ├── GuestLogin.tsx      # Экран входа (гостевой режим)
+│   ├── Dashboard.tsx       # Главный дашборд с виджетами
+│   ├── Dock.tsx            # Нижняя/верхняя панель навигации
+│   ├── Modals.tsx          # Модальные окна (changelog, privacy, telegram, weather)
+│   └── FullSettings.tsx    # Полная панель настроек
+├── types.ts                # TypeScript типы
+├── data.ts                 # Данные приложения (темы, ссылки, changelog)
+└── utils.ts                # Утилиты (localStorage, темы, время)
+```
+
+---
+
+## ⚙️ Настройка
+
+### Погодный виджет
+
+1. Получите бесплатный API ключ на [openweathermap.org](https://openweathermap.org/api)
+2. Откройте настройки (клавиша `,`) → вкладка **Виджеты** → укажите город и API ключ
+
+Ключ хранится в `localStorage` — он никуда не отправляется, кроме OpenWeatherMap.
+
+### Прокси-режим
+
+Настройки → вкладка **Прокси** → укажите URL прокси-сервера.  
+Параметр `?url=<целевой адрес>` подставляется автоматически.
+
+---
+
+## 🎨 Темы
+
+| ID | Название |
+|---|---|
+| `dark-blue` | Dark Blue (по умолчанию) |
+| `dark-purple` | Dark Purple |
+| `dark-green` | Hacker Green |
+| `dark-red` | Dark Red |
+| `midnight` | Midnight |
+| `ocean` | Ocean |
+| `sunset` | Sunset |
+| `neon` | Neon |
+| `custom` | Кастом (цветовой микшер) |
+
+---
+
+## 🔐 Конфиденциальность
+
+- Все настройки хранятся **только в `localStorage`** браузера
+- Никакие данные не передаются на серверы LinkerRu
+- Weather API запросы идут напрямую в OpenWeatherMap
+
+---
+
+## 📋 История версий
+
+### v12.0.0 (2025)
+- Полный редизайн на React + Next.js + TypeScript
+- Новая система тем с цветовым микшером
+- Анимированный фон с частицами
+- Полностью переработанная панель настроек
+- Поддержка прокси-ссылок для заблокированных сайтов
+- Интеграция с Telegram каналами
+
+---
+
+## 📄 Лицензия
+
+MIT — используйте свободно.
