@@ -1,3 +1,4 @@
+<img width="1500" height="1500" alt="i n k e r" src="https://github.com/user-attachments/assets/67a1f5e4-5c70-49d6-8986-e710e54bb25d" />
 # LinkerRu
 
 ## Next.js component library refactor
