@@ -1,4 +1,4 @@
-<img width="2000" height="2000" alt="i n k e r (8)" src="https://github.com/user-attachments/assets/21000db8-96f5-4673-867f-efaa8e98b55e" />
+lisyan connect logo(all rigths reserved) <img width="2000" height="2000" alt="i n k e r (8)" src="https://github.com/user-attachments/assets/21000db8-96f5-4673-867f-efaa8e98b55e" />
 [Popcorn_Google_Pixel_4_Stock_Notification-639186-mobiles24.mp3](https://github.com/user-attachments/files/30140801/Popcorn_Google_Pixel_4_Stock_Notification-639186-mobiles24.mp3)
 <img width="2000" height="2000" alt="i n k e r" src="https://github.com/user-attachments/assets/a133f6c8-56eb-47c7-939e-cdcbeec3f8d5" />
 
