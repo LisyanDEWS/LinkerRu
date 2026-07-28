@@ -15,3 +15,19 @@ From your small office you must watch the security cameras carefully. You have a
 Can you survive five nights at Freddy's?
 
 "For all the simplicity of the game’s controls and premise, Five Nights at Freddy‘s is frightening. It’s a fantastic example of how cleverness in design and subtlety can be used to make an experience terrifying. Simple still images and proper character design steal the show in this game, and show that Scott Cawthon knows quite a lot about the secret fears people feel when looking at creepy dolls and toys. It’s elegant in how it sows fear, and is a must-own for anyone who likes scary games." -Joel Couture
+
+FNAF 2 https://irv77.github.io/hd_fnaf/2/
+description Welcome back to the new and improved Freddy Fazbear's Pizza! As always, Fazbear Entertainment is not responsible for death or dismemberment.
+logo <img width="460" height="215" alt="header (1)" src="https://github.com/user-attachments/assets/bf81d2ec-1aac-4474-8bd8-2639532bf5c0" />
+pictures<img width="1024" height="768" alt="ss_49915306285cd7c567620c1c10e300a068089e35 1920x1080" src="https://github.com/user-attachments/assets/89391c5a-4e9e-47fb-9570-b4da57fcfaa0" />
+<img width="1024" height="768" alt="ss_f42e7f094cab8a39322ddb0f14df824ad15865bf 1920x1080" src="https://github.com/user-attachments/assets/d85c2a17-f96f-4d77-8535-00bfc0e99bae" />
+About This Game
+Welcome back to the new and improved Freddy Fazbear's Pizza!
+
+In Five Nights at Freddy's 2, the old and aging animatronics are joined by a new cast of characters. They are kid-friendly, updated with the latest in facial recognition technology, tied into local criminal databases, and promise to put on a safe and entertaining show for kids and grown-ups alike!
+
+What could go wrong?
+
+As the new security guard working nights, your job is to monitor cameras and make sure nothing goes wrong after-hours. The previous guard has complained about the characters trying to get into the office (he has since been moved to day-shift). So to make your job easier, you've been provided with your very own empty Freddy Fazbear head, which should fool the animatronic characters into leaving you alone if they should accidentally enter your office.
+
+As always, Fazbear Entertainment is not responsible for death or dismemberment.© 2014 Scott Cawthon
